@@ -31,7 +31,7 @@ error = False
 t_0 = datetime.datetime.now()
 t_st = datetime.datetime.now()
 # error, result = users.jira_users(auth,connection)
-# print(time.ctime()," users: " + result + print_dest(t_st))
+#  print(time.ctime()," users: " + result + print_dest(t_st))
 if not error:
     t_st = datetime.datetime.now()
     # error,result = groups_users.group_users(auth,connection)
