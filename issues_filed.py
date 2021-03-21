@@ -4,20 +4,16 @@ import json
 import psycopg2
 
 
-def issues_fields():
+def issues_fields(auth, connection):
+    error = False
     result = "all finished OK"
     try:
 
-        connection = psycopg2.connect(user = "postgres",
-                                          password = "password",
-                                          host = "127.0.0.1",
-                                          port = "5432",
-                                          database = "postgres")
-        connection.autocommit=True
+
         cursor = connection.cursor()
         url = "https://alterosmart.atlassian.net/rest/api/3/field"
 
-        auth = HTTPBasicAuth("k.demidov@alterosmart.com", "L99Ib8xsuFJKtvTn8SpM8F3C")
+
         headers = {
            "Accept": "application/json"
         }
@@ -40,7 +36,6 @@ def issues_fields():
 #             print(insert_users)
             cursor.execute(insert_users)
     except Exception as e:
-        result = "error "+f"{e}"
-    return result
-st = issues_fields()
-print(st)
+        result = "error " + f"{e}"
+        error = True
+    return error, result

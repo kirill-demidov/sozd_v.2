@@ -12,24 +12,18 @@ def get_data(data, caption, default=''):
         return default
 
 
-def issues():
-    result = "all finished OK"
+def issues(auth,connection):
+    error = False
+    result = " all finished OK"
     issue_url = 'https://alterosmart.atlassian.net/browse/'
     startAt = 0
     total = None
-    print(time.ctime())
     try:
 
-        connection = psycopg2.connect(user="postgres",
-                                      password="password",
-                                      host="127.0.0.1",
-                                      port="5432",
-                                      database="postgres")
-        connection.autocommit = True
+
         cursor = connection.cursor()
         url = "https://alterosmart.atlassian.net/rest/api/3/search?jql="
 
-        auth = HTTPBasicAuth("k.demidov@alterosmart.com", "L99Ib8xsuFJKtvTn8SpM8F3C")
         headers = {
             "Accept": "application/json"
         }
@@ -123,8 +117,6 @@ def issues():
                         cursor.execute(insert_worklogs)
     except Exception as e:
         result = "error " + f"{e}"
-    return result
+        error = True
+    return error, result
 
-
-st = issues()
-print(st)

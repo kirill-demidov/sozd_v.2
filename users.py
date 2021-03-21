@@ -1,27 +1,16 @@
 import requests
-from requests.auth import HTTPBasicAuth
 import json
-import psycopg2
 
 
-def jira_users():
+def jira_users(auth, connection):
+    error = False
     result = "all finished OK"
     try:
-
-        connection = psycopg2.connect(user = "postgres",
-                                          password = "password",
-                                          host = "127.0.0.1",
-                                          port = "5432",
-                                          database = "postgres")
-        connection.autocommit=True
         cursor = connection.cursor()
         url = "https://alterosmart.atlassian.net/rest/api/3/users/search?maxResults=100"
-
-        auth = HTTPBasicAuth("k.demidov@alterosmart.com", "L99Ib8xsuFJKtvTn8SpM8F3C")
         headers = {
            "Accept": "application/json"
         }
-
         response = requests.request(
            "GET",
            url,
@@ -43,7 +32,6 @@ def jira_users():
             cursor.execute(insert_users)
     except Exception as e:
         result = "error "+f"{e}"
-    return result
-st = jira_users()
-print(st)
+        error = True
+    return error,result
 

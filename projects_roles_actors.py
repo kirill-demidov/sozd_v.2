@@ -1,23 +1,13 @@
 import requests
-from requests.auth import HTTPBasicAuth
 import json
-import psycopg2
 
 
-def project_roles_actors():
+def project_roles_actors(auth,connection):
     result = "all finished OK"
+    error = False
     try:
-        connection = psycopg2.connect(user = "postgres",
-                                          password = "password",
-                                          host = "127.0.0.1",
-                                          port = "5432",
-                                          database = 'postgres')
-        connection.autocommit=True
         cursor = connection.cursor()
         url = "https://alterosmart.atlassian.net/rest/api/3/project/search"
-
-        auth = HTTPBasicAuth("k.demidov@alterosmart.com", "L99Ib8xsuFJKtvTn8SpM8F3C")
-
         headers = {
            "Accept": "application/json"
         }
@@ -91,7 +81,6 @@ def project_roles_actors():
                     insert_role_user_table = "insert into public.mrr_project_role_user (user_name,role_id,project_id)values("+"'"+user_name+"','"+str(role_id)+"','"+str(project)+"')"
                     cursor.execute(insert_role_user_table)
     except Exception as e:
-        result = "error "+f"{e}"
-    return result
-st = project_roles_actors()
-print(st)
+        result = "error " + f"{e}"
+        error = True
+    return error, result

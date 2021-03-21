@@ -1,21 +1,15 @@
 import requests
-from requests.auth import HTTPBasicAuth
 import json
-import psycopg2
 
-def group_users():
-    result = "all finished OK"
+def group_users(auth, connection):
+    error = False
+    result = " all finished OK"
     try:
-        connection = psycopg2.connect(user = "postgres",
-                                          password = "password",
-                                          host = "127.0.0.1",
-                                          port = "5432",
-                                          database = "postgres")
-        connection.autocommit=True
+
         cursor = connection.cursor()
         url = "https://alterosmart.atlassian.net/rest/api/3/groups/picker?maxResults=1000"
 
-        auth = HTTPBasicAuth("k.demidov@alterosmart.com", "L99Ib8xsuFJKtvTn8SpM8F3C")
+
 
         headers = {
            "Accept": "application/json"
@@ -72,6 +66,5 @@ def group_users():
                 cursor.execute(insert_group_users)
     except Exception as e:
         result = "error "+f"{e}"
-    return result
-st = group_users()
-print(st)
+        error = True
+    return error,result
