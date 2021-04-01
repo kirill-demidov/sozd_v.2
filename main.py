@@ -8,6 +8,7 @@ import psycopg2
 from requests.auth import HTTPBasicAuth
 import time
 import datetime
+import issues_worklog
 
 
 def get_value_time(t):
@@ -34,23 +35,26 @@ error, result = users.jira_users(auth,connection)
 print(time.ctime()," users: " + result + print_dest(t_st))
 if not error:
     t_st = datetime.datetime.now()
-    error,result = groups_users.group_users(auth,connection)
-    print(time.ctime()," groups_users: " + result + print_dest(t_st))
+    # error,result = groups_users.group_users(auth,connection)
+    # print(time.ctime()," groups_users: " + result + print_dest(t_st))
     if not error:
          t_st = datetime.datetime.now()
-         error,result = projects_roles_actors.project_roles_actors(auth,connection)
-         print(time.ctime()," projects_roles_actors: " + result + print_dest(t_st))
+         # error,result = projects_roles_actors.project_roles_actors(auth,connection)
+         # print(time.ctime()," projects_roles_actors: " + result + print_dest(t_st))
          if not error:
              t_st = datetime.datetime.now()
-             error, result = issues_filed.issues_fields(auth, connection)
-             print(time.ctime(), " issues_filed: " + result + print_dest(t_st))
+             # error, result = issues_filed.issues_fields(auth, connection)
+             # print(time.ctime(), " issues_filed: " + result + print_dest(t_st))
              if not error:
                  t_st = datetime.datetime.now()
-                 error, result = issues.issues(auth, connection)
-                 print(time.ctime(), " issues: " + result + print_dest(t_st))
+                 # error, result = issues.issues(auth, connection)
+                 # print(time.ctime(), " issues: " + result + print_dest(t_st))
                  if not error:
                      t_st = datetime.datetime.now()
                      error, result = postgres_etl.postgres_etl(connection)
                      print(time.ctime(), " postgres_etl: " + result + print_dest(t_st))
-print(time.ctime()," main time: " + result + print_dest(t_0))
-# test
+                     if not error:
+                        # t_st = datetime.datetime.now()
+                        # error, result = issues_worklog.worklog(auth, connection)
+                        # print(time.ctime(), " worklog: " + result + print_dest(t_st))
+                        print(time.ctime()," main time: " + result + print_dest(t_0))

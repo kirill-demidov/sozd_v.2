@@ -1,8 +1,5 @@
 import requests
-from requests.auth import HTTPBasicAuth
 import json
-import psycopg2
-import time
 
 
 def get_data(data, caption, default=''):
@@ -12,28 +9,22 @@ def get_data(data, caption, default=''):
         return default
 
 
-def issues():
+def worklog(auth,connection):
+    error = False
     result = "all finished OK"
     issue_url = 'https://alterosmart.atlassian.net/browse/'
     startAt = 0
     total = None
     try:
-
-        connection = psycopg2.connect(user="postgres",
-                                      password="password",
-                                      host="127.0.0.1",
-                                      port="5432",
-                                      database="postgres")
-        connection.autocommit = True
         cursor = connection.cursor()
         url = "https://alterosmart.atlassian.net/rest/api/3/search?jql="
-
-        auth = HTTPBasicAuth("k.demidov@alterosmart.com", "L99Ib8xsuFJKtvTn8SpM8F3C")
         headers = {
             "Accept": "application/json"
         }
 
         needfinish = False
+        truncate_table = 'truncate table public.mrr_worklog;'
+        cursor.execute(truncate_table)
         while not needfinish:
 
             response = requests.request(
@@ -63,18 +54,28 @@ def issues():
                     headers=headers,
                     auth=auth
                 )
-                #                 print(json.dumps(json.loads(response.text), sort_keys=True, indent=4, separators=(",", ": ")))
-
+                tmp = ''
                 worklogs = json.loads(response.text)
                 logs = worklogs['worklogs']
-                print(logs)
-
-                # print (type(items))
-
+                for log in logs:
+                    if len(str(log)) < 3:
+                       tmp='?'
+                    else:
+                        updater_id = log ['updateAuthor']['accountId']
+                        worklog_id = log['id']
+                        create_date = log['created']
+                        update_date = log['updated']
+                        start_date = log['started']
+                        time_spent = log['timeSpent']
+                        time_spent_sec = log['timeSpentSeconds']
+                        # print(issue_id,updater_id,worklog_id,create_date,update_date,start_date, time_spent,time_spent_sec)
+                        insert_worklog = "INSERT INTO public.mrr_worklog (worklog_id, issue_id, \
+                        create_date, update_date, start_date, time_spent, time_spent_sec, updater_id)\
+                                        values(" + "'" + str(worklog_id) + "','" + str(issue_id) + "','" + str(create_date) + "','" + \
+                                         str(update_date) + "','" + str(start_date) + "','" + str(time_spent) + "'\
+                                           ,'" + str(time_spent_sec) + "','" + str(updater_id)  + "')"
+                        cursor.execute(insert_worklog)
     except Exception as e:
-        result = "error " + f"{e, issue_id}"
-    return result
-
-
-st = issues()
-print(st)
+        result = "error " + f"{e}"
+        error = True
+    return error, result

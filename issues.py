@@ -1,8 +1,6 @@
 import requests
-from requests.auth import HTTPBasicAuth
 import json
-import psycopg2
-import time
+
 
 
 def get_data(data, caption, default=''):
@@ -19,8 +17,6 @@ def issues(auth,connection):
     startAt = 0
     total = None
     try:
-
-
         cursor = connection.cursor()
         url = "https://alterosmart.atlassian.net/rest/api/3/search?jql="
 
@@ -45,10 +41,6 @@ def issues(auth,connection):
             needfinish = startAt + maxResults > total
             #             print (total,startAt,maxResults)
             startAt = startAt + issues['maxResults']
-
-            truncate_table = 'truncate table public.mrr_issue_fields'
-            cursor.execute(truncate_table)
-            #             print (issues['issues'])
             for issue in issues['issues']:
                 issue_id = issue['id']
                 issue_link = issue_url + issue['key']
