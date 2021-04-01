@@ -2,7 +2,7 @@ import requests
 import json
 
 
-def get_data(data, caption, default=''):
+def get_data(data, caption, default=None):
     if data:
         return data[caption]
     else:
@@ -15,6 +15,9 @@ def worklog(auth,connection):
     issue_url = 'https://alterosmart.atlassian.net/browse/'
     startAt = 0
     total = None
+    sprint_id = -1
+    sprint_name = 'none'
+
     try:
         cursor = connection.cursor()
         url = "https://alterosmart.atlassian.net/rest/api/3/search?jql="
@@ -40,9 +43,24 @@ def worklog(auth,connection):
             #             print (total,startAt,maxResults)
             startAt = startAt + issues['maxResults']
 
+
             #             print (issues['issues'])
             for issue in issues['issues']:
                 issue_id = issue['id']
+                if 'fields' in issue:
+                    field = issue['fields']
+                    if 'customfield_10020' in field:
+                        sprint = field['customfield_10020']
+                        if sprint and (sprint != 'null'):
+                            for sp in sprint:
+                                if sp["state"]=='active':
+                                    sprint_id = sp['id']
+                                    sprint_name = sp['name']
+
+
+                                    # print(sprint_id, sprint_name, issue_id)
+
+
                 url_worklog = "https://alterosmart.atlassian.net/rest/api/3/issue/" + issue_id + "/worklog"
                 headers = {
                     "Accept": "application/json"
@@ -68,14 +86,15 @@ def worklog(auth,connection):
                         start_date = log['started']
                         time_spent = log['timeSpent']
                         time_spent_sec = log['timeSpentSeconds']
-                        # print(issue_id,updater_id,worklog_id,create_date,update_date,start_date, time_spent,time_spent_sec)
+                         # print(issue_id,updater_id,worklog_id,create_date,update_date,start_date, time_spent,time_spent_sec)
                         insert_worklog = "INSERT INTO public.mrr_worklog (worklog_id, issue_id, \
-                        create_date, update_date, start_date, time_spent, time_spent_sec, updater_id)\
+                        create_date, update_date, start_date, time_spent, time_spent_sec, updater_id, active_sprint_id,active_sprint_name)\
                                         values(" + "'" + str(worklog_id) + "','" + str(issue_id) + "','" + str(create_date) + "','" + \
                                          str(update_date) + "','" + str(start_date) + "','" + str(time_spent) + "'\
-                                           ,'" + str(time_spent_sec) + "','" + str(updater_id)  + "')"
+                                           ,'" + str(time_spent_sec) + "','" + str(updater_id) + "','"+str(sprint_id)+ "','"+str(sprint_name) + "')"
                         cursor.execute(insert_worklog)
     except Exception as e:
         result = "error " + f"{e}"
         error = True
     return error, result
+

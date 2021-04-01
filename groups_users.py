@@ -5,12 +5,8 @@ def group_users(auth, connection):
     error = False
     result = " all finished OK"
     try:
-
         cursor = connection.cursor()
         url = "https://alterosmart.atlassian.net/rest/api/3/groups/picker?maxResults=1000"
-
-
-
         headers = {
            "Accept": "application/json"
         }
