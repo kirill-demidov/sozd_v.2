@@ -15,7 +15,6 @@ def issues(auth,connection):
     result = " all finished OK"
     issue_url = 'https://alterosmart.atlassian.net/browse/'
     startAt = 0
-    total = None
     try:
         cursor = connection.cursor()
         url = "https://alterosmart.atlassian.net/rest/api/3/search?jql="

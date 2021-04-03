@@ -8,7 +8,7 @@ issue_url = 'https://alterosmart.atlassian.net/browse/'
 startAt = 0
 total = None
 try:
-    url = "https://alterosmart.atlassian.net/rest/agile/1.0/board/27/sprint/135/issue"
+    url = "https://alterosmart.atlassian.net/rest/agile/1.0/board/27/sprint/135/issue?maxResults=500"
 
     headers = {
         "Accept": "application/json"
@@ -29,7 +29,9 @@ try:
         needfinish = startAt + maxResults > total
         #             print (total,startAt,maxResults)
         startAt = startAt + issues_in_sprint['maxResults']
-        print (issues_in_sprint['issues']['id'])
+        with open('personal.json', 'w') as json_file:
+            json.dump(issues_in_sprint, json_file)
+        # print (issues_in_sprint['issues']['id'])
         # for issue in issues_in_sprint['issues']:
         #    print(issues_in_sprint['issues']['id'])
 except Exception as e:
