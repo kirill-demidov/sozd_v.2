@@ -8,6 +8,10 @@ issue_url = 'https://alterosmart.atlassian.net/browse/'
 startAt = 0
 total = None
 try:
+    #download data from specifical board and sprint
+    #27 Scrum_board_GWF
+    #135 Sprint ID 22.03.2021 - 05.04.2021
+
     url = "https://alterosmart.atlassian.net/rest/agile/1.0/board/27/sprint/135/issue?maxResults=500"
 
     headers = {
@@ -31,6 +35,7 @@ try:
         startAt = startAt + issues_in_sprint['maxResults']
         with open('personal.json', 'w') as json_file:
             json.dump(issues_in_sprint, json_file)
+            print('file is ready')
         # print (issues_in_sprint['issues']['id'])
         # for issue in issues_in_sprint['issues']:
         #    print(issues_in_sprint['issues']['id'])
