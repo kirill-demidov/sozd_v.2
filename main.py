@@ -23,7 +23,7 @@ def print_dest(t_st):
 
 connection = psycopg2.connect(user = "postgres",
                                               password = "password",
-                                              host = "192.168.1.107",
+                                              host = "bi-postgres",
                                               port = "5432",
                                               database = "postgres")
 connection.autocommit=True
