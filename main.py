@@ -20,7 +20,7 @@ def print_dest(t_st):
     t = get_value_time(t_end) - get_value_time(t_st)
     return 'T pipeline = ' + "%.3f" % t + ' sec'
 
-
+#test
 connection = psycopg2.connect(user = "postgres",
                                               password = "password",
                                               host = "bi-postgres-0",
