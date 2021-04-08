@@ -10,6 +10,7 @@ import time
 import datetime
 import issues_worklog
 from telegram_send import send
+import Scripts_DB_Oblects
 
 
 def get_value_time(t):
@@ -23,10 +24,17 @@ def print_dest(t_st):
 #test
 connection = psycopg2.connect(user = "postgres",
                                               password = "password",
-                                              host = "bi-postgres",
+                                              host = "bi-postgres-0",
                                               port = "5432",
                                               database = "postgres")
 connection.autocommit=True
+cursor = connection.cursor()
+try:
+    cursor.execute(Scripts_DB_Oblects.txt_scripts)#check existing db objects and createing missing objects
+except Exception as err:
+        # print ("error "+f"{err}")
+        send(messages=[time.ctime()+": error "+f"{err}"])
+        exit(-5)
 auth = HTTPBasicAuth("k.demidov@alterosmart.com", "L99Ib8xsuFJKtvTn8SpM8F3C")
 
 error = False
