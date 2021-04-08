@@ -381,6 +381,37 @@ begin
 end;
 $function$
 ;
+CREATE OR REPLACE FUNCTION public.stg_populate_duration_changelog_table()
+ RETURNS text
+ LANGUAGE plpgsql
+AS $function$
+declare
+  ftime_start timestamp;
+  ftime_start_prev timestamp;
+  fissue_id text;
+  fissue_id_prev text;
+  fold_value text;
+  duration int;
+  fchangelog_id text;
+  curs cursor for select distinct changelog_id, issue_id, changelog_timestamp, old_value from mrr_changelog  where filed_name = 'status' order by issue_id,changelog_timestamp;
+begin
+	truncate table stg_changelog_duration;
+	fissue_id_prev:=-1;
+	open curs;
+	loop
+		fetch curs into fchangelog_id, fissue_id, ftime_start, fold_value;
+		if not found then exit; end if;
+		if fissue_id_prev <> fissue_id then 
+			ftime_start_prev := (select issue_created_date from mrr_issues where issue_id = fissue_id);
+		end if; --new issue_id
+		duration :=  EXTRACT(HOUR FROM ftime_start-ftime_start_prev)+extract(day from ftime_start-ftime_start_prev)*24 ;
+		insert into stg_changelog_duration (changelog_id , field_name , value , duration_hours , issue_id ) values (fchangelog_id::int, 'status', fold_value, duration, fissue_id::int);
+	end loop;
+	close curs;
+	return 'Finished';
+end;
+$function$
+;
 
 CREATE OR REPLACE FUNCTION public.getallcolumnsname(schemaname text, tablename text)
  RETURNS text
