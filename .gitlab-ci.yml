@@ -1,4 +1,3 @@
-
 stages:
   - build
   - deploy
@@ -28,10 +27,12 @@ stages:
     - docker push ${CI_REGISTRY_IMAGE}:${CI_COMMIT_TAG}
     # Print the job's end time
     - date "+'%Y-%m-%d %H:%M:%S %z'"
+
 Build Beta (auto):
   <<: *build_template
   only:
     - /^[0-9.]{1,8}[.-](beta)[0-9.]{1,3}$/
+
 # DEPLOY
 .Deploy template: &deploy_template
   image: dtzar/helm-kubectl:3.4.0
