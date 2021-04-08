@@ -47,6 +47,7 @@ Build Beta (auto):
     - kubectl set image deployment/${CI_PROJECT_NAME} --namespace ${NAMESPACE} ${CI_PROJECT_NAME}=${CI_REGISTRY_IMAGE}:${CI_COMMIT_TAG}
   variables:
     K8S_CONFIG: '${KUBE_CONFIG}'
+
 Deploy IEC (auto):
   <<: *deploy_template
   tags: [au, docker, office]
