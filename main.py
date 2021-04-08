@@ -33,7 +33,7 @@ try:
     cursor.execute(Scripts_DB_Oblects.txt_scripts)#check existing db objects and createing missing objects
 except Exception as err:
         # print ("error "+f"{err}")
-        send(messages=[time.ctime()+": error "+f"{err}"])
+        # send(messages=[time.ctime()+": error "+f"{err}"])
         exit(-5)
 auth = HTTPBasicAuth("k.demidov@alterosmart.com", "L99Ib8xsuFJKtvTn8SpM8F3C")
 
@@ -72,6 +72,6 @@ if not error:
                          t_st = datetime.datetime.now()
                          error, result = postgres_etl.postgres_etl(connection)
                          print(time.ctime(), " postgres_etl: " + result + print_dest(t_st))
-                         send(messages=[time.ctime(), " postgres_etl: " + result + print_dest(t_st)])
+                         # send(messages=[time.ctime(), " postgres_etl: " + result + print_dest(t_st)])
                          print(time.ctime()," main time: " + result + print_dest(t_0))
-                         send(messages=[time.ctime(), " main time: " + result + print_dest(t_st)])
+                         # send(messages=[time.ctime(), " main time: " + result + print_dest(t_st)])

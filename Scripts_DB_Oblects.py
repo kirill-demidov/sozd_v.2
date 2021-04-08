@@ -94,7 +94,7 @@ CREATE TABLE  if not exists public.dwh_fact_status_duration (
 	CONSTRAINT dwh_fact_status_duration_pk PRIMARY KEY (changelog_id)
 );
 
-CREATE TABLE public.mng_bridge_user_group (
+CREATE TABLE if not exists public.mng_bridge_user_group (
 	id int4 NOT NULL GENERATED ALWAYS AS IDENTITY,
 	user_id varchar NULL,
 	group_id varchar NULL
