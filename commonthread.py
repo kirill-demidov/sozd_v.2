@@ -21,7 +21,7 @@ host_db = 'bi-postgres'
 port_db = 5432
 name_db = 'postgres'
 user_name = 'postgres'
-password = 'postgres'
+password = 'password'
 #  дискретность (для суток 86400, один час - 3600)
 discret = 86400
 # начальная точка отсчета дискретностей (7200 - 2 часа ночи)
