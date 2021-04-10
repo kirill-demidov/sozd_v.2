@@ -17,8 +17,8 @@ import commonthread
 lock = Lock()
 is_live = True
 connection = None
-host_db = 'bi-postgres'
-# host_db = '127.0.0.1'
+# host_db = 'bi-postgres'
+host_db = '127.0.0.1'
 port_db = 5432
 name_db = 'postgres'
 user_name = 'postgres'
