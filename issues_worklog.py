@@ -1,5 +1,6 @@
 import requests
 import json
+import commonthread
 
 
 def get_data(data, caption, default=None):
@@ -13,6 +14,7 @@ def worklog(auth, connection):
     error = False
     result = "all finished OK"
     start_at = 0
+    row_count =0
     try:
         cursor = connection.cursor()
         url = "https://alterosmart.atlassian.net/rest/api/3/search?jql="
@@ -33,9 +35,9 @@ def worklog(auth, connection):
             )
             issues = json.loads(response.text)
             total = issues['total']
-            max_results = issues['max_results']
+            max_results = issues['maxResults']
             need_finish = start_at + max_results > total
-            start_at = start_at + issues['max_results']
+            start_at = start_at + max_results
             for issue in issues['issues']:
                 sprint_id = -1
                 sprint_name = ''
@@ -79,7 +81,12 @@ def worklog(auth, connection):
                                         "','" + str(time_spent) + "','" + str(time_spent_sec) + "','" + \
                                         str(updater_id) + "','"+str(sprint_id) + "','"+str(sprint_name) + "')"
                                     cursor.execute(insert_worklog)
+                                    row_count = row_count + 1
+                            st = 'total=' + str(total) + '; start_at=' + str(start_at) + '; row_count=' + str(
+                                row_count)
+                            commonthread.write_log('DEBUG', 'worklog', st, True)
     except Exception as e:
         result = "error " + f"{e}"
         error = True
+    result = result + '; row_count = ' + str(row_count)
     return error, result

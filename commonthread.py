@@ -40,14 +40,13 @@ def txt_result(error):
 
 
 def write_log(level: str, src: str, msg: str, with_out_lf = False):
-    lock.acquire()
+    st = "lvl=" + level + ' ' + 'src="' + str(src).replace('"', "'") + '" msg="' + str(msg).replace('"', "'") + '"'
+    # lock.acquire()
     if with_out_lf:
-        print("lvl=" + level + ' ' + 'src="' + str(src).replace('"', "'") + '" msg="' +
-              str(msg).replace('"', "'") + '"', end="\r")
+        print("\r" + st + '                               ', end="\r")
     else:
-        print("lvl=" + level + ' ' + 'src="' + str(src).replace('"', "'") + '" msg="' +
-            str(msg).replace('"', "'") + '"')
-    lock.release()
+        print(st)
+    # lock.release()
 
 
 def get_value_time(t):

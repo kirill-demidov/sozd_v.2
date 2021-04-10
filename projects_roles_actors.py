@@ -1,5 +1,6 @@
 import requests
 import json
+import commonthread
 
 
 def project_roles_actors(auth, connection):
@@ -38,10 +39,15 @@ def project_roles_actors(auth, connection):
                 "insert into public.mrr_projects (projectid, isPrivate, key,name, projectTypeKey)\
                 values ("+"'"+projectid+"','"+str(is_private)+"','"+key+"','"+name+"','"+project_type_key+"');"
             sql_text = sql_text + insert_projects
+            row_count = row_count + 1
+            st = 'projects_id=' + str(len(data['values'])) + '; n=' + str(n) + '; row_count=' + str(row_count)
+            commonthread.write_log('DEBUG', 'projects_roles_actors', st, True)
             # cursor.execute(insert_projects)
         cursor.execute(sql_text)
+        nid = 0
         for project in project_ids:
             sql_text = ''
+            nid = nid + 1
             url = "https://alterosmart.atlassian.net/rest/api/3/project/"+project+"/roledetails"
         #     print(url)
 
@@ -56,7 +62,9 @@ def project_roles_actors(auth, connection):
                    auth=auth
                 )
             data = json.loads(project_roles.text)
+            n = 0
             for role in range(0, len(data)):
+                n = n + 1
                 role_id = data[role]['id']
                 role_name = data[role]['name']
                 insert_role_table = \
@@ -64,6 +72,9 @@ def project_roles_actors(auth, connection):
                     + "','" + role_name + "','" + str(project) + "');"
                 sql_text = sql_text + insert_role_table
                 row_count = row_count + 1
+                st = 'qid=' + str(len(project_ids)) + '; nid=' + str(nid) + \
+                     '; roles=' + str(len(data))+'; n=' + str(n)+'; row_count=' + str(row_count)
+                commonthread.write_log('DEBUG', 'projects_roles_actors', st, True)
                 # cursor.execute(insert_role_table)
             cursor.execute(sql_text)
         #         print(role_id,role_name,project)
@@ -96,7 +107,11 @@ def project_roles_actors(auth, connection):
                         "'" + user_name + "','" + str(role_id) + "','" + str(project) + "');"
                     sql_text = sql_text + insert_role_user_table
                     row_count = row_count + 1
-                    # cursor.execute(insert_role_user_table)
+                    st = 'qid=' + str(len(project_ids)) + '; nid=' + str(nid) + \
+                         '; actors=' + str(len(roles_actors['actors'])) + '; i=' + str(i) + '; row_count=' + str(row_count)
+                    commonthread.write_log('DEBUG', 'projects_roles_actors', st, True)
+
+                # cursor.execute(insert_role_user_table)
             cursor.execute(sql_text)
     except Exception as e:
         result = "error " + f"{e}"

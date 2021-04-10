@@ -33,6 +33,6 @@ while True:
     commonthread.lock.acquire()
     up = commonthread.is_live
     commonthread.lock.release()
-    if not up:  # поток не завершился
+    if not up:  # поток завершился - снова запустить
         commonthread.write_log('WARN', 'main', 'Cancel thread')
         start_thread()
