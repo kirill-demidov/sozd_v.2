@@ -5,6 +5,8 @@ import json
 def project_roles_actors(auth, connection):
     result = "all finished OK"
     error = False
+    row_count = 0
+    sql_text = ''
     try:
         cursor = connection.cursor()
         url = "https://alterosmart.atlassian.net/rest/api/3/project/search"
@@ -34,9 +36,12 @@ def project_roles_actors(auth, connection):
             project_type_key = data['values'][n]['projectTypeKey']
             insert_projects = \
                 "insert into public.mrr_projects (projectid, isPrivate, key,name, projectTypeKey)\
-                values ("+"'"+projectid+"','"+str(is_private)+"','"+key+"','"+name+"','"+project_type_key+"')"
-            cursor.execute(insert_projects)
+                values ("+"'"+projectid+"','"+str(is_private)+"','"+key+"','"+name+"','"+project_type_key+"');"
+            sql_text = sql_text + insert_projects
+            # cursor.execute(insert_projects)
+        cursor.execute(sql_text)
         for project in project_ids:
+            sql_text = ''
             url = "https://alterosmart.atlassian.net/rest/api/3/project/"+project+"/roledetails"
         #     print(url)
 
@@ -56,10 +61,14 @@ def project_roles_actors(auth, connection):
                 role_name = data[role]['name']
                 insert_role_table = \
                     "insert into public.mrr_project_roles (roleid,rolename,projectid)values(" + "'" + str(role_id)\
-                    + "','" + role_name + "','" + str(project) + "')"
-                cursor.execute(insert_role_table)
+                    + "','" + role_name + "','" + str(project) + "');"
+                sql_text = sql_text + insert_role_table
+                row_count = row_count + 1
+                # cursor.execute(insert_role_table)
+            cursor.execute(sql_text)
         #         print(role_id,role_name,project)
 
+            sql_text = ''
             for n in data:
                 url = 'https://alterosmart.atlassian.net/rest/api/3/project/'+project+'/role/'+str(n['id'])
         #         print(url)
@@ -84,9 +93,13 @@ def project_roles_actors(auth, connection):
                     user_name = actors['displayName']
                     insert_role_user_table = \
                         "insert into public.mrr_project_role_user (user_name,role_id,project_id)values(" + \
-                        "'" + user_name + "','" + str(role_id) + "','" + str(project) + "')"
-                    cursor.execute(insert_role_user_table)
+                        "'" + user_name + "','" + str(role_id) + "','" + str(project) + "');"
+                    sql_text = sql_text + insert_role_user_table
+                    row_count = row_count + 1
+                    # cursor.execute(insert_role_user_table)
+            cursor.execute(sql_text)
     except Exception as e:
         result = "error " + f"{e}"
         error = True
+    result = result + '; row_count = ' + str(row_count)
     return error, result

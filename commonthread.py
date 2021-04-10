@@ -17,11 +17,13 @@ import commonthread
 lock = Lock()
 is_live = True
 connection = None
-host_db = 'bi-postgres'
+# host_db = 'bi-postgres'
+host_db = '127.0.0.1'
 port_db = 5432
 name_db = 'postgres'
 user_name = 'postgres'
-password = 'password'
+# password = 'password'
+password = 'postgres'
 #  дискретность (для суток 86400, один час - 3600)
 discret = 86400
 # начальная точка отсчета дискретностей (7200 - 2 часа ночи)
@@ -37,11 +39,14 @@ def txt_result(error):
         return 'INFO'
 
 
-def write_log(level: str, src: str, msg: str):
+def write_log(level: str, src: str, msg: str, with_out_lf = False):
     lock.acquire()
-    print(
-        "lvl=" + level + ' ' + 'src="' + str(src).replace('"', "'") + '" msg="' +
-        str(msg).replace('"', "'") + '"')
+    if with_out_lf:
+        print("lvl=" + level + ' ' + 'src="' + str(src).replace('"', "'") + '" msg="' +
+              str(msg).replace('"', "'") + '"', end="\r")
+    else:
+        print("lvl=" + level + ' ' + 'src="' + str(src).replace('"', "'") + '" msg="' +
+            str(msg).replace('"', "'") + '"')
     lock.release()
 
 
@@ -151,17 +156,15 @@ class TImport(threading.Thread):
 
 
 def connect_and_update_db():
-    conn = psycopg2.connect(
-        user=user_name,
-        # password = "password",
-        password=password,
-        # host = "bi-postgres",
-        host=host_db,
-        port=port_db,
-        database=name_db)
-    conn.autocommit = True
-    cursor = conn.cursor()
     try:
+        conn = psycopg2.connect(
+            user=user_name,
+            password=password,
+            host=host_db,
+            port=port_db,
+            database=name_db)
+        conn.autocommit = True
+        cursor = conn.cursor()
         cursor.execute(Scripts_DB_Oblects.txt_scripts)  # check existing db objects and createing missing objects
         write_log('INFO', 'main.py', time.ctime() + ": all tables are updated")
         return conn, True

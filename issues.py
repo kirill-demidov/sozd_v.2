@@ -1,5 +1,6 @@
 import requests
 import json
+import commonthread
 
 
 def get_data(data, caption, default=''):
@@ -14,6 +15,7 @@ def issues(auth, connection):
     result = " all finished OK"
     issue_url = 'https://alterosmart.atlassian.net/browse/'
     start_at = 0
+    row_count = 0
     try:
         cursor = connection.cursor()
         url = "https://alterosmart.atlassian.net/rest/api/3/search?jql="
@@ -38,8 +40,9 @@ def issues(auth, connection):
             max_results = issues['maxResults']
             needfinish = start_at + max_results > total
             #             print (total,startAt,max_results)
-            # startAt = start_at + issues['max_results']
+            start_at = start_at + max_results
             for issue in issues['issues']:
+                sql_text = ''
                 issue_id = issue['id']
                 issue_link = issue_url + issue['key']
                 issue_key = issue['key']
@@ -66,9 +69,11 @@ def issues(auth, connection):
                     str(issue_created_date) + "','" + str(issue_updated_date) + "','" + str(issue_priority) + "','" + \
                     str(issue_time_estimate) + "','" + str(issue_time_estimated_org) + "','" + str(issue_creator) + \
                     "','" + str(issue_reporter) + "','" + str(issue_assignee) + "','" + str(issue_status) + "',\
-                    '" + str(issue_resolution).replace("'", "''") + "','" + str(issue_summ).replace("'", "''") + "')"
+                    '" + str(issue_resolution).replace("'", "''") + "','" + str(issue_summ).replace("'", "''") + "');"
                 #                 print(insert_issues)
-                cursor.execute(insert_issues)
+                # cursor.execute(insert_issues)
+                sql_text = insert_issues
+                row_count = row_count + 1
                 url_worklog = "https://alterosmart.atlassian.net/rest/api/3/issue/" + issue_id + "/changelog"
                 headers = {"Accept": "application/json"}
                 response = requests.request(
@@ -98,9 +103,16 @@ def issues(auth, connection):
                             filed_name,old_value,new_value,user_id ) values(" + "'" + str(changelog_id) + "','" + \
                             str(issue_id) + "','" + str(changelog_timestamp) + "','" + str(field_name) + "','" + \
                             str(old_value).replace("'", "''") + "','" + str(new_value).replace("'", "''") + \
-                            "','" + str(user_id) + "')"
-                        cursor.execute(insert_worklogs)
+                            "','" + str(user_id) + "');"
+                        sql_text = sql_text + insert_worklogs
+                        row_count = row_count + 1
+                        st = 'total=' + str(total) + '; start_at=' + str(start_at) + '; row_count=' + str(row_count)
+                        commonthread.write_log('DEBUG', 'issues', st, True)
+                        # print('total=', total, 'start_at=', start_at, 'row_count=', row_count, end="\r"),
+                        # cursor.execute(insert_worklogs)
+                cursor.execute(sql_text)
     except Exception as e:
         result = "error " + f"{e}"
         error = True
+    result = result + '; row_count = ' + str(row_count)
     return error, result

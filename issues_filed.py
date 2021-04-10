@@ -4,6 +4,7 @@ import json
 
 def issues_fields(auth, connection):
     error = False
+    row_count = 0
     result = "all finished OK"
     try:
         cursor = connection.cursor()
@@ -27,7 +28,9 @@ def issues_fields(auth, connection):
                 "insert into public.mrr_issue_fields (field_id,field_name) values("+"'"+field_id+"','"+field_name+"')"
 #             print(insert_users)
             cursor.execute(insert_users)
+            row_count = row_count + 1
     except Exception as e:
         result = "error " + f"{e}"
         error = True
+    result = result + '; row_count = ' + str(row_count)
     return error, result
