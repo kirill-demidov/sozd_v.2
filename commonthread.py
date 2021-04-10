@@ -17,13 +17,13 @@ import commonthread
 lock = Lock()
 is_live = True
 connection = None
-# host_db = 'bi-postgres'
-host_db = '127.0.0.1'
+host_db = 'bi-postgres'
+# host_db = '127.0.0.1'
 port_db = 5432
 name_db = 'postgres'
 user_name = 'postgres'
-# password = 'password'
-password = 'postgres'
+password = 'password'
+# password = 'postgres'
 #  дискретность (для суток 86400, один час - 3600)
 discret = 86400
 # начальная точка отсчета дискретностей (7200 - 2 часа ночи)
