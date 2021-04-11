@@ -39,14 +39,11 @@ def txt_result(error):
         return 'INFO'
 
 
-def write_log(level: str, src: str, msg: str, with_out_lf = False):
+def write_log(level: str, src: str, msg: str):
     st = "lvl=" + level + ' ' + 'src="' + str(src).replace('"', "'") + '" msg="' + str(msg).replace('"', "'") + '"'
-    # lock.acquire()
-    if with_out_lf:
-        print("\r" + st + '                               ', end="\r")
-    else:
-        print(st)
-    # lock.release()
+    lock.acquire()
+    print(st)
+    lock.release()
 
 
 def get_value_time(t):
@@ -124,7 +121,7 @@ class TImport(threading.Thread):
                                 # send(messages=[time.ctime(), " postgres_etl: " + result + print_dest(t_st)])
         t_st = datetime.datetime.now()
         t0 = get_value_time(t_st) - get_value_time(commonthread.t_0)
-        write_log('INFO', '', 'FINISH: ' + time.ctime() + '; Passed = ' + "%.3f" % t0 + ' sec')
+        write_log('INFO', 'FINISH', time.ctime() + '; Passed = ' + "%.3f" % t0 + ' sec')
         # send(messages=[time.ctime(), " main time: " + result + print_dest(t_st)])
 
     def run(self):  # после запуска потока выполняется эта процедура
