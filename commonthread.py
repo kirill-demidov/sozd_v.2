@@ -107,13 +107,13 @@ class TImport(threading.Thread):
                     #  send(messages=[time.ctime(), " issues_filed: " + result + print_dest(t_st)])
                     if not error:
                         t_st = datetime.datetime.now()
-                        error, result = issues.issues(auth, connection)
-                        write_log(txt_result(error), 'issues', result + print_dest(t_st))
+                        # error, result = issues.issues(auth, connection)
+                        # write_log(txt_result(error), 'issues', result + print_dest(t_st))
                         #  send(messages=[time.ctime(), " issues: " + result + print_dest(t_st)])
                         if not error:
                             t_st = datetime.datetime.now()
-                            error, result = issues_worklog.worklog(auth, connection)
-                            write_log(txt_result(error), 'worklog', result + print_dest(t_st))
+                            # error, result = issues_worklog.worklog(auth, connection)
+                            # write_log(txt_result(error), 'worklog', result + print_dest(t_st))
                             #  send(messages=[time.ctime(), " worklog: " + result + print_dest(t_st)])
                             if not error:
                                 t_st = datetime.datetime.now()
