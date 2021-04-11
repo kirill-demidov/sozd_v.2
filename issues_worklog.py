@@ -1,6 +1,6 @@
 import requests
 import json
-import commonthread
+# import commonthread
 
 
 def get_data(data, caption, default=None):
@@ -82,9 +82,9 @@ def worklog(auth, connection):
                                         str(updater_id) + "','"+str(sprint_id) + "','"+str(sprint_name) + "')"
                                     cursor.execute(insert_worklog)
                                     row_count = row_count + 1
-                            st = 'total=' + str(total) + '; start_at=' + str(start_at) + '; row_count=' + str(
-                                row_count)
-                            commonthread.write_log('DEBUG', 'worklog', st, True)
+                            # st = 'total=' + str(total) + '; start_at=' + str(start_at) + '; row_count=' + str(
+                            #     row_count)
+                            # commonthread.write_log('DEBUG', 'worklog', st, True)
     except Exception as e:
         result = "error " + f"{e}"
         error = True

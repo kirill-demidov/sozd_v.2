@@ -1,6 +1,6 @@
 import requests
 import json
-import commonthread
+# import commonthread
 
 
 def group_users(auth, connection):
@@ -49,8 +49,8 @@ def group_users(auth, connection):
                 row_count = row_count + 1
                 sql_text = sql_text + insert_labels
                 # cursor.execute(insert_labels)
-            st = 'groups=' + str(len(data['groups'])) + '; n=' + str(n) + '; row_count=' + str(row_count)
-            commonthread.write_log('DEBUG', 'groups_users', st, True)
+            # st = 'groups=' + str(len(data['groups'])) + '; n=' + str(n) + '; row_count=' + str(row_count)
+            # commonthread.write_log('DEBUG', 'groups_users', st, True)
         # getting user-group from jira
         cursor.execute(sql_text)
 
@@ -79,8 +79,8 @@ def group_users(auth, connection):
                 sql_text = sql_text + insert_group_users
                 # cursor.execute(insert_group_users)
             i = i + 1
-            st = 'names=' + str(len(names)) + '; n=' + str(i) + '; row_count=' + str(row_count)
-            commonthread.write_log('DEBUG', 'groups_users', st, True)
+            # st = 'names=' + str(len(names)) + '; n=' + str(i) + '; row_count=' + str(row_count)
+            # commonthread.write_log('DEBUG', 'groups_users', st, True)
         cursor.execute(sql_text)
     except Exception as e:
         result = "error "+f"{e}"

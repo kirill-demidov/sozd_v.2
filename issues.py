@@ -1,6 +1,6 @@
 import requests
 import json
-import commonthread
+# import commonthread
 
 
 def get_data(data, caption, default=''):
@@ -106,8 +106,8 @@ def issues(auth, connection):
                             "','" + str(user_id) + "');"
                         sql_text = sql_text + insert_worklogs
                         row_count = row_count + 1
-                    st = 'total=' + str(total) + '; start_at=' + str(start_at) + '; row_count=' + str(row_count)
-                    commonthread.write_log('DEBUG', 'issues', st, True)
+                    # st = 'total=' + str(total) + '; start_at=' + str(start_at) + '; row_count=' + str(row_count)
+                    # commonthread.write_log('DEBUG', 'issues', st, True)
                         # print('total=', total, 'start_at=', start_at, 'row_count=', row_count, end="\r"),
                         # cursor.execute(insert_worklogs)
                 cursor.execute(sql_text)

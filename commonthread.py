@@ -88,22 +88,23 @@ class TImport(threading.Thread):
         commonthread.t_0 = datetime.datetime.now()
         t_st = datetime.datetime.now()
         error, result = users.jira_users(auth, connection)
-        write_log(txt_result(error), 'users', result + print_dest(t_st))
+        write_log(txt_result(error), 'users', 'users: ' + result + print_dest(t_st))
         # send(messages=[time.ctime()," users: " + result + print_dest(t_st)])
         if not error:
             t_st = datetime.datetime.now()
             error, result = groups_users.group_users(auth, connection)
-            write_log(txt_result(error), 'groups_users', result + print_dest(t_st))
+            write_log(txt_result(error), 'groups_users', 'groups_users: ' + result + print_dest(t_st))
             # send(messages=[time.ctime()," groups_users: " + result + print_dest(t_st)])
             if not error:
                 t_st = datetime.datetime.now()
                 error, result = projects_roles_actors.project_roles_actors(auth, connection)
-                write_log(txt_result(error), 'projects_roles_actor', result + print_dest(t_st))
+                write_log(
+                    txt_result(error), 'projects_roles_actor', 'projects_roles_actor: ' + result + print_dest(t_st))
                 #  send(messages=[time.ctime(), " projects_roles_actors: " + result + print_dest(t_st)])
                 if not error:
                     t_st = datetime.datetime.now()
                     error, result = issues_filed.issues_fields(auth, connection)
-                    write_log(txt_result(error), 'issues_filed', result + print_dest(t_st))
+                    write_log(txt_result(error), 'issues_filed', 'issues_filed: ' + result + print_dest(t_st))
                     #  send(messages=[time.ctime(), " issues_filed: " + result + print_dest(t_st)])
                     if not error:
                         t_st = datetime.datetime.now()
@@ -113,16 +114,17 @@ class TImport(threading.Thread):
                         if not error:
                             t_st = datetime.datetime.now()
                             error, result = issues_worklog.worklog(auth, connection)
-                            write_log(txt_result(error), 'worklog', result + print_dest(t_st))
+                            write_log(txt_result(error), 'worklog', 'worklog: ' + result + print_dest(t_st))
                             #  send(messages=[time.ctime(), " worklog: " + result + print_dest(t_st)])
                             if not error:
                                 t_st = datetime.datetime.now()
                                 error, result = postgres_etl.postgres_etl(connection)
-                                write_log(txt_result(error), 'postgres_etl', result + print_dest(t_st))
+                                write_log(
+                                    txt_result(error), 'postgres_etl', 'postgres_etl: ' + result + print_dest(t_st))
                                 # send(messages=[time.ctime(), " postgres_etl: " + result + print_dest(t_st)])
         t_st = datetime.datetime.now()
         t0 = get_value_time(t_st) - get_value_time(commonthread.t_0)
-        write_log('INFO', 'FINISH', time.ctime() + '; Passed = ' + "%.3f" % t0 + ' sec')
+        write_log('INFO', '', 'FINISH: ' + time.ctime() + '; Passed = ' + "%.3f" % t0 + ' sec')
         # send(messages=[time.ctime(), " main time: " + result + print_dest(t_st)])
 
     def run(self):  # после запуска потока выполняется эта процедура
@@ -165,8 +167,8 @@ def connect_and_update_db():
         conn.autocommit = True
         cursor = conn.cursor()
         cursor.execute(Scripts_DB_Oblects.txt_scripts)  # check existing db objects and createing missing objects
-        write_log('INFO', 'main.py', time.ctime() + ": all tables are updated")
+        write_log('INFO', 'connect_and_update', time.ctime() + ": all tables are updated")
         return conn, True
     except Exception as err:
-        write_log('ERROR', 'main.py', time.ctime() + ": error " + f"{err}")
+        write_log('ERROR', 'connect_and_update', time.ctime() + ": error " + f"{err}")
         return None, False
