@@ -49,7 +49,7 @@ def group_users(auth, connection):
                 row_count = row_count + 1
                 sql_text = sql_text + insert_labels
                 # cursor.execute(insert_labels)
-            # st = 'groups=' + str(len(data['groups'])) + '; n=' + str(n) + '; row_count=' + str(row_count)
+            # st = 'groups=' + str(len(data['groups'])) + '; n=' + str(n + 1) + '; row_count=' + str(row_count)
             # commonthread.write_log('DEBUG', 'groups_users', st, True)
         # getting user-group from jira
         cursor.execute(sql_text)

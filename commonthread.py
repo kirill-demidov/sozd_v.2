@@ -39,10 +39,13 @@ def txt_result(error):
         return 'INFO'
 
 
-def write_log(level: str, src: str, msg: str):
+def write_log(level: str, src: str, msg: str, with_out_lf = False):
     st = "lvl=" + level + ' ' + 'src="' + str(src).replace('"', "'") + '" msg="' + str(msg).replace('"', "'") + '"'
     lock.acquire()
-    print(st)
+    if with_out_lf:
+        print("\r" + st, end="\r")
+    else:
+        print(st)
     lock.release()
 
 
