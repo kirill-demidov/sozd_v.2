@@ -1,0 +1,540 @@
+﻿{
+  "paragraphs": [
+    {
+      "title": "Worklog by Users",
+      "text": "%sql\nselect sum(a.time_spent_sec)/3600 hours, cast(a.update_date as date) worklog_date,\n\t\tu.user_name  , p.project_name\nfrom public.dwh_fact_issues_worklog a join public.dwh_dim_users u \n\t\t\t\t\t\t\t\t\t  on a.updater_id =u.user_id \n\t\t\t\t\t\t\t\t\t  join dwh_dim_projects p \n\t\t\t\t\t\t\t\t\t  on cast(a.project_id as int) =p.project_id \nwhere 1=1\nand u.user_name = '${имя пользователя=Kirill Demidov,Andrey Suslov|Danil Roshko|Katya Yankovskaya|Evgen Bayankin|Former user|Denis Sudakov|Kirill Demidov|Egor Polyakov|Oleg Kuznetsov|Kirill Sedin|Ivan Abramenko|Ivan Korotkov|Vyacheslav Razbitskiy|Andrey Dyldin|Sergey Sanok|Stanislav Danilin|Pavel Kovalenko|Marat Rakhmanov|Sergey Demidov|Valentin Mukhin|Tempo Timesheets|Konstantin Poskrebyshev|Bagdana Babkova|ivan Zelinov}'\n\ngroup by cast(a.update_date as date) , u.user_name,  a.active_sprint_name,  p.project_name\nhaving sum(a.time_spent_sec)/3600>0\norder by 2 desc\n\n",
+      "user": "anonymous",
+      "dateUpdated": "2021-04-11T22:04:28+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "colWidth": 6,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "stackedAreaChart",
+              "height": 304,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {
+                    "columns": [
+                      {
+                        "name": "hours0",
+                        "visible": true,
+                        "width": "*",
+                        "sort": {},
+                        "filters": [
+                          {}
+                        ],
+                        "pinned": ""
+                      },
+                      {
+                        "name": "worklog_date1",
+                        "visible": true,
+                        "width": "*",
+                        "sort": {
+                          "priority": 0,
+                          "direction": "asc"
+                        },
+                        "filters": [
+                          {}
+                        ],
+                        "pinned": ""
+                      },
+                      {
+                        "name": "user_name2",
+                        "visible": true,
+                        "width": "*",
+                        "sort": {},
+                        "filters": [
+                          {
+                            "term": "Kirill Demidov"
+                          }
+                        ],
+                        "pinned": ""
+                      },
+                      {
+                        "name": "active_sprint_name3",
+                        "visible": true,
+                        "width": "*",
+                        "sort": {},
+                        "filters": [
+                          {}
+                        ],
+                        "pinned": ""
+                      }
+                    ],
+                    "scrollFocus": {},
+                    "selection": [],
+                    "grouping": {
+                      "grouping": [],
+                      "aggregations": [],
+                      "rowExpandedStates": {}
+                    },
+                    "treeView": {},
+                    "pagination": {
+                      "paginationCurrentPage": 1,
+                      "paginationPageSize": 250
+                    }
+                  },
+                  "tableColumnTypeState": {
+                    "names": {
+                      "hours": "string",
+                      "worklog_date": "string",
+                      "user_name": "string",
+                      "active_sprint_name": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": true,
+                    "showPagination": false,
+                    "showAggregationFooter": true
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "multiBarChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default",
+                  "stacked": true
+                },
+                "scatterChart": {
+                  "xAxis": {
+                    "name": "hours",
+                    "index": 0,
+                    "aggr": "sum"
+                  },
+                  "yAxis": {
+                    "name": "worklog_date",
+                    "index": 1,
+                    "aggr": "sum"
+                  },
+                  "group": {
+                    "name": "user_name",
+                    "index": 2,
+                    "aggr": "sum"
+                  }
+                },
+                "lineChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default",
+                  "forceY": true,
+                  "isDateFormat": false,
+                  "lineWithFocus": false
+                },
+                "stackedAreaChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default",
+                  "style": "stream"
+                }
+              },
+              "keys": [
+                {
+                  "name": "worklog_date",
+                  "index": 1,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [
+                {
+                  "name": "project_name",
+                  "index": 3,
+                  "aggr": "sum"
+                },
+                {
+                  "name": "user_name",
+                  "index": 2,
+                  "aggr": "sum"
+                }
+              ],
+              "values": [
+                {
+                  "name": "hours",
+                  "index": 0,
+                  "aggr": "sum"
+                }
+              ],
+              "commonSetting": {}
+            },
+            "helium": {}
+          }
+        },
+        "enabled": true,
+        "runOnSelectionChange": true,
+        "editorHide": true,
+        "title": true
+      },
+      "settings": {
+        "params": {
+          "user": "Danil Roshko",
+          "user_name": "Danil Roshko",
+          "item": "nameA",
+          "project_name": "Work",
+          "имя пользователя": "Stanislav Danilin"
+        },
+        "forms": {
+          "имя пользователя": {
+            "type": "Select",
+            "options": [
+              {
+                "value": "Andrey Suslov",
+                "$$hashKey": "object:7506"
+              },
+              {
+                "value": "Danil Roshko",
+                "$$hashKey": "object:7507"
+              },
+              {
+                "value": "Katya Yankovskaya",
+                "$$hashKey": "object:7508"
+              },
+              {
+                "value": "Evgen Bayankin",
+                "$$hashKey": "object:7509"
+              },
+              {
+                "value": "Former user",
+                "$$hashKey": "object:7510"
+              },
+              {
+                "value": "Denis Sudakov",
+                "$$hashKey": "object:7511"
+              },
+              {
+                "value": "Kirill Demidov",
+                "$$hashKey": "object:7512"
+              },
+              {
+                "value": "Egor Polyakov",
+                "$$hashKey": "object:7513"
+              },
+              {
+                "value": "Oleg Kuznetsov",
+                "$$hashKey": "object:7514"
+              },
+              {
+                "value": "Kirill Sedin",
+                "$$hashKey": "object:7515"
+              },
+              {
+                "value": "Ivan Abramenko",
+                "$$hashKey": "object:7516"
+              },
+              {
+                "value": "Ivan Korotkov",
+                "$$hashKey": "object:7517"
+              },
+              {
+                "value": "Vyacheslav Razbitskiy",
+                "$$hashKey": "object:7518"
+              },
+              {
+                "value": "Andrey Dyldin",
+                "$$hashKey": "object:7519"
+              },
+              {
+                "value": "Sergey Sanok",
+                "$$hashKey": "object:7520"
+              },
+              {
+                "value": "Stanislav Danilin",
+                "$$hashKey": "object:7521"
+              },
+              {
+                "value": "Pavel Kovalenko",
+                "$$hashKey": "object:7522"
+              },
+              {
+                "value": "Marat Rakhmanov",
+                "$$hashKey": "object:7523"
+              },
+              {
+                "value": "Sergey Demidov",
+                "$$hashKey": "object:7524"
+              },
+              {
+                "value": "Valentin Mukhin",
+                "$$hashKey": "object:7525"
+              },
+              {
+                "value": "Tempo Timesheets",
+                "$$hashKey": "object:7526"
+              },
+              {
+                "value": "Konstantin Poskrebyshev",
+                "$$hashKey": "object:7527"
+              },
+              {
+                "value": "Bagdana Babkova",
+                "$$hashKey": "object:7528"
+              },
+              {
+                "value": "ivan Zelinov",
+                "$$hashKey": "object:7529"
+              }
+            ],
+            "name": "имя пользователя",
+            "displayName": "имя пользователя",
+            "defaultValue": "Kirill Demidov",
+            "hidden": false,
+            "$$hashKey": "object:7495"
+          }
+        }
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "hours\tworklog_date\tuser_name\tproject_name\n1\t2021-04-02\tStanislav Danilin\tAlteroUniversal\n8\t2021-04-01\tStanislav Danilin\tAlteroUniversal\n10\t2021-03-31\tStanislav Danilin\tAlteroUniversal\n7\t2021-03-30\tStanislav Danilin\tAlteroUniversal\n8\t2021-03-29\tStanislav Danilin\tAlteroUniversal\n4\t2021-03-25\tStanislav Danilin\tAlteroUniversal\n3\t2021-03-23\tStanislav Danilin\tAlteroUniversal\n9\t2020-12-18\tStanislav Danilin\tAlteroUniversal\n1\t2020-12-17\tStanislav Danilin\tAlteroUniversal\n41\t2020-12-16\tStanislav Danilin\tAlteroUniversal\n8\t2020-12-08\tStanislav Danilin\tAlteroUniversal\n5\t2020-12-01\tStanislav Danilin\tAlteroUniversal\n3\t2020-11-30\tStanislav Danilin\tAlteroUniversal\n3\t2020-11-27\tStanislav Danilin\tAlteroUniversal\n6\t2020-11-26\tStanislav Danilin\tAlteroUniversal\n7\t2020-11-25\tStanislav Danilin\tAlteroUniversal\n4\t2020-11-23\tStanislav Danilin\tAlteroUniversal\n8\t2020-11-20\tStanislav Danilin\tAlteroUniversal\n1\t2020-11-18\tStanislav Danilin\tAlteroUniversal\n18\t2020-11-17\tStanislav Danilin\tAlteroUniversal\n1\t2020-11-16\tStanislav Danilin\tAlteroUniversal\n3\t2020-11-13\tStanislav Danilin\tAlteroUniversal\n1\t2020-11-11\tStanislav Danilin\tAlteroUniversal\n3\t2020-11-10\tStanislav Danilin\tAlteroUniversal\n4\t2020-11-09\tStanislav Danilin\tAlteroUniversal\n15\t2020-11-03\tStanislav Danilin\tAlteroUniversal\n1\t2020-11-02\tStanislav Danilin\tAlteroUniversal\n5\t2020-10-30\tStanislav Danilin\tAlteroUniversal\n3\t2020-10-27\tStanislav Danilin\tAlteroUniversal\n1\t2020-10-26\tStanislav Danilin\tAlteroUniversal\n4\t2020-10-19\tStanislav Danilin\tAlteroUniversal\n1\t2020-10-15\tStanislav Danilin\tAlteroUniversal\n17\t2020-10-12\tStanislav Danilin\tAlteroUniversal\n10\t2020-09-28\tStanislav Danilin\tAlteroUniversal\n8\t2020-09-16\tStanislav Danilin\tWork\n5\t2020-09-14\tStanislav Danilin\tAlteroUniversal\n3\t2020-08-18\tStanislav Danilin\tИспытательный стенд УСВИ\n2\t2020-08-17\tStanislav Danilin\tAlteroUniversal\n5\t2020-08-12\tStanislav Danilin\tAlteroUniversal\n3\t2020-08-10\tStanislav Danilin\tAlteroUniversal\n8\t2020-08-07\tStanislav Danilin\tAlteroUniversal\n2\t2020-07-10\tStanislav Danilin\tAlteroUniversal\n19\t2020-07-06\tStanislav Danilin\tAlteroUniversal\n5\t2020-06-30\tStanislav Danilin\tAlteroUniversal\n4\t2020-06-25\tStanislav Danilin\tAlteroUniversal\n3\t2020-06-23\tStanislav Danilin\tAlteroUniversal\n68\t2020-06-22\tStanislav Danilin\tAlteroUniversal\n4\t2020-06-16\tStanislav Danilin\tAlteroUniversal\n49\t2020-06-08\tStanislav Danilin\tAlteroUniversal\n4\t2020-05-22\tStanislav Danilin\tAlteroUniversal\n27\t2020-05-21\tStanislav Danilin\tAlteroUniversal\n25\t2020-05-18\tStanislav Danilin\tAlteroUniversal\n57\t2020-05-12\tStanislav Danilin\tAlteroUniversal\n18\t2020-04-27\tStanislav Danilin\tAlteroUniversal\n24\t2020-04-20\tStanislav Danilin\tAlteroUniversal\n8\t2020-04-15\tStanislav Danilin\tAlteroUniversal\n14\t2020-04-13\tStanislav Danilin\tAlteroUniversal\n2\t2020-04-08\tStanislav Danilin\tAlteroUniversal\n11\t2020-04-06\tStanislav Danilin\tAlteroUniversal\n3\t2020-04-01\tStanislav Danilin\tAlteroUniversal\n4\t2020-03-30\tStanislav Danilin\tAlteroUniversal\n7\t2020-03-23\tStanislav Danilin\tAlteroUniversal\n2\t2020-03-20\tStanislav Danilin\tAlteroUniversal\n2\t2020-03-18\tStanislav Danilin\tAlteroUniversal\n2\t2020-03-17\tStanislav Danilin\tMarketing\n11\t2020-03-16\tStanislav Danilin\tAlteroUniversal\n4\t2020-03-12\tStanislav Danilin\tAlteroUniversal\n2\t2020-03-09\tStanislav Danilin\tAlteroUniversal\n2\t2020-03-06\tStanislav Danilin\tAlteroUniversal\n7\t2020-03-05\tStanislav Danilin\tAlteroUniversal\n2\t2020-03-04\tStanislav Danilin\tAlteroUniversal\n23\t2020-03-02\tStanislav Danilin\tAlteroUniversal\n4\t2020-02-25\tStanislav Danilin\tAlteroUniversal\n8\t2020-02-19\tStanislav Danilin\tAlteroUniversal\n1\t2020-02-18\tStanislav Danilin\tAlteroUniversal\n18\t2020-02-17\tStanislav Danilin\tAlteroUniversal\n11\t2020-02-10\tStanislav Danilin\tAlteroUniversal\n8\t2020-02-02\tStanislav Danilin\tAlteroUniversal\n11\t2020-01-27\tStanislav Danilin\tAlteroUniversal\n3\t2020-01-21\tStanislav Danilin\tAlteroUniversal\n1\t2020-01-13\tStanislav Danilin\tAlteroUniversal\n8\t2019-12-23\tStanislav Danilin\tAlteroUniversal\n8\t2019-12-02\tStanislav Danilin\tAlteroUniversal\n3\t2019-11-20\tStanislav Danilin\tAlteroUniversal\n12\t2019-11-18\tStanislav Danilin\tAlteroUniversal\n5\t2019-11-11\tStanislav Danilin\tAlteroUniversal\n1\t2019-11-08\tStanislav Danilin\tAlteroUniversal\n1\t2019-11-06\tStanislav Danilin\tAlteroUniversal\n8\t2019-11-05\tStanislav Danilin\tAlteroUniversal\n4\t2019-10-28\tStanislav Danilin\tAlteroUniversal\n16\t2019-10-22\tStanislav Danilin\tAlteroUniversal\n1\t2019-10-15\tStanislav Danilin\tAlteroUniversal\n9\t2019-10-14\tStanislav Danilin\tAlteroUniversal\n1\t2019-10-02\tStanislav Danilin\tAlteroUniversal\n107\t2019-09-30\tStanislav Danilin\tAlteroUniversal\n2\t2019-09-27\tStanislav Danilin\tAlteroUniversal\n5\t2019-09-16\tStanislav Danilin\tAlteroUniversal\n2\t2019-09-12\tStanislav Danilin\tAlteroUniversal\n3\t2019-09-10\tStanislav Danilin\tAlteroUniversal\n48\t2019-09-02\tStanislav Danilin\tAlteroUniversal\n8\t2019-08-26\tStanislav Danilin\tAlteroUniversal\n8\t2019-08-09\tStanislav Danilin\tAlteroUniversal\n8\t2019-08-07\tStanislav Danilin\tAlteroUniversal\n2\t2019-07-24\tStanislav Danilin\tAlteroUniversal\n24\t2019-07-22\tStanislav Danilin\tAlteroUniversal\n6\t2019-07-12\tStanislav Danilin\tAlteroUniversal\n2\t2019-07-10\tStanislav Danilin\tAlteroUniversal\n4\t2019-05-22\tStanislav Danilin\tAlteroUniversal\n2\t2019-05-14\tStanislav Danilin\tAlteroUniversal\n4\t2019-05-13\tStanislav Danilin\tAlteroUniversal\n24\t2019-04-26\tStanislav Danilin\tAlteroUniversal\n2\t2019-04-24\tStanislav Danilin\tAlteroUniversal\n15\t2019-04-22\tStanislav Danilin\tAlteroUniversal\n8\t2019-04-15\tStanislav Danilin\tAlteroUniversal\n2\t2019-04-09\tStanislav Danilin\tAlteroUniversal\n7\t2019-03-15\tStanislav Danilin\tAlteroUniversal\n1\t2019-03-13\tStanislav Danilin\tAlteroUniversal\n10\t2019-03-11\tStanislav Danilin\tAlteroUniversal\n8\t2019-03-04\tStanislav Danilin\tAlteroUniversal\n8\t2019-03-01\tStanislav Danilin\tAlteroUniversal\n8\t2019-02-28\tStanislav Danilin\tAlteroUniversal\n83\t2019-02-27\tStanislav Danilin\tAlteroUniversal\n16\t2019-02-19\tStanislav Danilin\tAlteroUniversal\n35\t2019-02-18\tStanislav Danilin\tAlteroUniversal\n2\t2019-02-15\tStanislav Danilin\tAlteroUniversal\n8\t2019-02-13\tStanislav Danilin\tAlteroUniversal\n2\t2019-02-12\tStanislav Danilin\tAlteroUniversal\n56\t2019-02-11\tStanislav Danilin\tAlteroUniversal\n32\t2019-02-08\tStanislav Danilin\tAlteroUniversal\n24\t2019-02-04\tStanislav Danilin\tAlteroUniversal\n40\t2019-02-01\tStanislav Danilin\tAlteroUniversal\n4\t2019-01-31\tStanislav Danilin\tAlteroUniversal\n84\t2019-01-30\tStanislav Danilin\tAlteroUniversal\n64\t2019-01-28\tStanislav Danilin\tAlteroUniversal\n58\t2019-01-24\tStanislav Danilin\tAlteroUniversal\n79\t2019-01-23\tStanislav Danilin\tAlteroUniversal\n24\t2019-01-21\tStanislav Danilin\tAlteroUniversal\n30\t2019-01-18\tStanislav Danilin\tAlteroUniversal\n2\t2019-01-17\tStanislav Danilin\tAlteroUniversal\n2\t2019-01-16\tStanislav Danilin\tAlteroUniversal\n2\t2019-01-15\tStanislav Danilin\tAlteroUniversal\n2\t2018-12-11\tStanislav Danilin\tAlteroUniversal\n10\t2018-11-13\tStanislav Danilin\tAlteroUniversal\n88\t2018-09-20\tStanislav Danilin\tAlteroUniversal\n8\t2018-08-28\tStanislav Danilin\tAlteroUniversal\n2\t2018-08-10\tStanislav Danilin\tAlteroUniversal\n9\t2018-08-08\tStanislav Danilin\tAlteroUniversal\n80\t2018-08-03\tStanislav Danilin\tAlteroUniversal\n8\t2018-07-20\tStanislav Danilin\tAlteroUniversal\n24\t2018-07-17\tStanislav Danilin\tAlteroUniversal\n1\t2018-07-09\tStanislav Danilin\tAlteroUniversal\n2\t2018-07-03\tStanislav Danilin\tAlteroUniversal\n32\t2018-07-02\tStanislav Danilin\tAlteroUniversal\n3\t2018-06-29\tStanislav Danilin\tAlteroUniversal\n16\t2018-06-08\tStanislav Danilin\tAlteroUniversal\n1\t2018-05-23\tStanislav Danilin\tAlteroUniversal\n3\t2018-05-18\tStanislav Danilin\tAlteroUniversal\n3\t2018-05-07\tStanislav Danilin\tAlteroUniversal\n2\t2018-04-03\tStanislav Danilin\tAlteroUniversal\n3\t2018-04-02\tStanislav Danilin\tWork\n3\t2018-03-20\tStanislav Danilin\tAlteroUniversal\n4\t2018-02-22\tStanislav Danilin\tAlteroUniversal\n4\t2018-02-21\tStanislav Danilin\tAlteroUniversal\n4\t2018-02-13\tStanislav Danilin\tAlteroUniversal\n32\t2018-02-06\tStanislav Danilin\tAlteroUniversal\n1\t2018-01-30\tStanislav Danilin\tWork\n8\t2018-01-22\tStanislav Danilin\tWork\n8\t2018-01-17\tStanislav Danilin\tWork\n4\t2018-01-11\tStanislav Danilin\tAlteroUniversal\n20\t2017-12-28\tStanislav Danilin\tAlteroUniversal\n8\t2017-12-27\tStanislav Danilin\tAlteroUniversal\n12\t2017-12-20\tStanislav Danilin\tAlteroUniversal\n6\t2017-12-12\tStanislav Danilin\tRadius\n40\t2017-12-08\tStanislav Danilin\tRadius\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1618146237473_1666793881",
+      "id": "paragraph_1618146237473_1666793881",
+      "dateCreated": "2021-04-11T13:03:57+0000",
+      "dateStarted": "2021-04-11T22:04:28+0000",
+      "dateFinished": "2021-04-11T22:04:28+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:184"
+    },
+    {
+      "title": "Worklog by Project",
+      "text": "%sql\nselect sum(a.time_spent_sec)/3600 hours, cast(a.update_date as date) worklog_date,\n\t p.project_name \nfrom public.dwh_fact_issues_worklog a join public.dwh_dim_users u \n\t\t\t\t\t\t\t\t\t  on a.updater_id =u.user_id \n\t\t\t\t\t\t\t\t\t  join dwh_dim_projects p \n\t\t\t\t\t\t\t\t\t  on cast(a.project_id as int) =p.project_id \nwhere 1=1\n\nand p.project_name = '${проект=Marketing, Marketing|Work|Испытательный стенд УСВИ|AlteroUniversal|Israel Electric Corporation|Master Data Management|Test_Software|BMS|Radius|BigData}'\ngroup by cast(a.update_date as date) ,  a.active_sprint_name, p.project_name \norder by 2 desc",
+      "user": "anonymous",
+      "dateUpdated": "2021-04-11T22:02:31+0000",
+      "progress": 0,
+      "config": {
+        "lineNumbers": true,
+        "tableHide": false,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "colWidth": 6,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 9,
+        "editorHide": true,
+        "runOnSelectionChange": true,
+        "title": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "lineChart",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "hours": "string",
+                      "worklog_date": "string",
+                      "user_name": "string",
+                      "project_name": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "lineChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default",
+                  "forceY": true
+                },
+                "stackedAreaChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "multiBarChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                }
+              },
+              "commonSetting": {},
+              "keys": [
+                {
+                  "name": "worklog_date",
+                  "index": 1,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [
+                {
+                  "name": "project_name",
+                  "index": 2,
+                  "aggr": "sum"
+                }
+              ],
+              "values": [
+                {
+                  "name": "hours",
+                  "index": 0,
+                  "aggr": "sum"
+                }
+              ]
+            },
+            "helium": {}
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {
+          "project_name": "Work",
+          "проект": "AlteroUniversal"
+        },
+        "forms": {
+          "проект": {
+            "type": "Select",
+            "options": [
+              {
+                "value": " Marketing",
+                "$$hashKey": "object:5783"
+              },
+              {
+                "value": "Work",
+                "$$hashKey": "object:5784"
+              },
+              {
+                "value": "Испытательный стенд УСВИ",
+                "$$hashKey": "object:5785"
+              },
+              {
+                "value": "AlteroUniversal",
+                "$$hashKey": "object:5786"
+              },
+              {
+                "value": "Israel Electric Corporation",
+                "$$hashKey": "object:5787"
+              },
+              {
+                "value": "Master Data Management",
+                "$$hashKey": "object:5788"
+              },
+              {
+                "value": "Test_Software",
+                "$$hashKey": "object:5789"
+              },
+              {
+                "value": "BMS",
+                "$$hashKey": "object:5790"
+              },
+              {
+                "value": "Radius",
+                "$$hashKey": "object:5791"
+              },
+              {
+                "value": "BigData",
+                "$$hashKey": "object:5792"
+              }
+            ],
+            "name": "проект",
+            "displayName": "проект",
+            "defaultValue": "Marketing",
+            "hidden": false,
+            "$$hashKey": "object:5772"
+          }
+        }
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "hours\tworklog_date\tproject_name\n18\t2021-04-09\tAlteroUniversal\n36\t2021-04-08\tAlteroUniversal\n17\t2021-04-07\tAlteroUniversal\n79\t2021-04-06\tAlteroUniversal\n15\t2021-04-05\tAlteroUniversal\n1\t2021-04-04\tAlteroUniversal\n19\t2021-04-02\tAlteroUniversal\n29\t2021-04-02\tAlteroUniversal\n23\t2021-04-01\tAlteroUniversal\n66\t2021-04-01\tAlteroUniversal\n23\t2021-03-31\tAlteroUniversal\n10\t2021-03-31\tAlteroUniversal\n22\t2021-03-30\tAlteroUniversal\n17\t2021-03-30\tAlteroUniversal\n24\t2021-03-29\tAlteroUniversal\n7\t2021-03-29\tAlteroUniversal\n16\t2021-03-28\tAlteroUniversal\n20\t2021-03-26\tAlteroUniversal\n13\t2021-03-26\tAlteroUniversal\n41\t2021-03-25\tAlteroUniversal\n25\t2021-03-24\tAlteroUniversal\n9\t2021-03-24\tAlteroUniversal\n33\t2021-03-23\tAlteroUniversal\n1\t2021-03-23\tAlteroUniversal\n13\t2021-03-22\tAlteroUniversal\n9\t2021-03-19\tAlteroUniversal\n7\t2021-03-19\tAlteroUniversal\n23\t2021-03-18\tAlteroUniversal\n13\t2021-03-17\tAlteroUniversal\n15\t2021-03-16\tAlteroUniversal\n14\t2021-03-15\tAlteroUniversal\n2\t2021-03-15\tAlteroUniversal\n4\t2021-03-14\tAlteroUniversal\n30\t2021-03-12\tAlteroUniversal\n11\t2021-03-11\tAlteroUniversal\n27\t2021-03-10\tAlteroUniversal\n11\t2021-03-09\tAlteroUniversal\n22\t2021-03-05\tAlteroUniversal\n16\t2021-03-04\tAlteroUniversal\n19\t2021-03-03\tAlteroUniversal\n13\t2021-03-02\tAlteroUniversal\n17\t2021-03-01\tAlteroUniversal\n30\t2021-02-26\tAlteroUniversal\n28\t2021-02-25\tAlteroUniversal\n8\t2021-02-24\tAlteroUniversal\n7\t2021-02-22\tAlteroUniversal\n16\t2021-02-20\tAlteroUniversal\n18\t2021-02-19\tAlteroUniversal\n27\t2021-02-18\tAlteroUniversal\n43\t2021-02-17\tAlteroUniversal\n16\t2021-02-16\tAlteroUniversal\n8\t2021-02-15\tAlteroUniversal\n13\t2021-02-12\tAlteroUniversal\n37\t2021-02-11\tAlteroUniversal\n7\t2021-02-10\tAlteroUniversal\n19\t2021-02-09\tAlteroUniversal\n13\t2021-02-08\tAlteroUniversal\n6\t2021-02-06\tAlteroUniversal\n5\t2021-02-05\tAlteroUniversal\n13\t2021-02-04\tAlteroUniversal\n22\t2021-02-03\tAlteroUniversal\n14\t2021-02-02\tAlteroUniversal\n14\t2021-02-01\tAlteroUniversal\n1\t2021-01-31\tAlteroUniversal\n8\t2021-01-29\tAlteroUniversal\n18\t2021-01-28\tAlteroUniversal\n8\t2021-01-27\tAlteroUniversal\n20\t2021-01-26\tAlteroUniversal\n29\t2021-01-25\tAlteroUniversal\n15\t2021-01-22\tAlteroUniversal\n28\t2021-01-21\tAlteroUniversal\n33\t2021-01-20\tAlteroUniversal\n31\t2021-01-19\tAlteroUniversal\n18\t2021-01-18\tAlteroUniversal\n0\t2021-01-16\tAlteroUniversal\n34\t2021-01-15\tAlteroUniversal\n16\t2021-01-14\tAlteroUniversal\n5\t2021-01-13\tAlteroUniversal\n17\t2021-01-12\tAlteroUniversal\n14\t2021-01-11\tAlteroUniversal\n0\t2021-01-08\tAlteroUniversal\n17\t2020-12-30\tAlteroUniversal\n19\t2020-12-29\tAlteroUniversal\n15\t2020-12-28\tAlteroUniversal\n28\t2020-12-25\tAlteroUniversal\n23\t2020-12-24\tAlteroUniversal\n48\t2020-12-23\tAlteroUniversal\n16\t2020-12-22\tAlteroUniversal\n21\t2020-12-21\tAlteroUniversal\n41\t2020-12-18\tAlteroUniversal\n13\t2020-12-17\tAlteroUniversal\n73\t2020-12-16\tAlteroUniversal\n33\t2020-12-15\tAlteroUniversal\n37\t2020-12-14\tAlteroUniversal\n19\t2020-12-11\tAlteroUniversal\n20\t2020-12-10\tAlteroUniversal\n50\t2020-12-09\tAlteroUniversal\n42\t2020-12-08\tAlteroUniversal\n38\t2020-12-07\tAlteroUniversal\n31\t2020-12-04\tAlteroUniversal\n38\t2020-12-03\tAlteroUniversal\n31\t2020-12-02\tAlteroUniversal\n28\t2020-12-01\tAlteroUniversal\n27\t2020-11-30\tAlteroUniversal\n53\t2020-11-27\tAlteroUniversal\n37\t2020-11-26\tAlteroUniversal\n64\t2020-11-25\tAlteroUniversal\n45\t2020-11-24\tAlteroUniversal\n9\t2020-11-23\tAlteroUniversal\n37\t2020-11-20\tAlteroUniversal\n44\t2020-11-19\tAlteroUniversal\n34\t2020-11-18\tAlteroUniversal\n34\t2020-11-17\tAlteroUniversal\n22\t2020-11-16\tAlteroUniversal\n20\t2020-11-13\tAlteroUniversal\n18\t2020-11-12\tAlteroUniversal\n17\t2020-11-11\tAlteroUniversal\n25\t2020-11-10\tAlteroUniversal\n14\t2020-11-09\tAlteroUniversal\n0\t2020-11-08\tAlteroUniversal\n17\t2020-11-06\tAlteroUniversal\n22\t2020-11-05\tAlteroUniversal\n3\t2020-11-04\tAlteroUniversal\n46\t2020-11-03\tAlteroUniversal\n9\t2020-11-02\tAlteroUniversal\n29\t2020-10-30\tAlteroUniversal\n10\t2020-10-29\tAlteroUniversal\n16\t2020-10-28\tAlteroUniversal\n8\t2020-10-27\tAlteroUniversal\n7\t2020-10-26\tAlteroUniversal\n2\t2020-10-25\tAlteroUniversal\n8\t2020-10-23\tAlteroUniversal\n8\t2020-10-22\tAlteroUniversal\n22\t2020-10-21\tAlteroUniversal\n8\t2020-10-20\tAlteroUniversal\n41\t2020-10-19\tAlteroUniversal\n24\t2020-10-16\tAlteroUniversal\n28\t2020-10-15\tAlteroUniversal\n18\t2020-10-14\tAlteroUniversal\n32\t2020-10-13\tAlteroUniversal\n35\t2020-10-12\tAlteroUniversal\n84\t2020-10-09\tAlteroUniversal\n54\t2020-10-08\tAlteroUniversal\n8\t2020-10-07\tAlteroUniversal\n38\t2020-10-06\tAlteroUniversal\n27\t2020-10-05\tAlteroUniversal\n16\t2020-10-02\tAlteroUniversal\n19\t2020-10-01\tAlteroUniversal\n19\t2020-09-30\tAlteroUniversal\n14\t2020-09-29\tAlteroUniversal\n10\t2020-09-28\tAlteroUniversal\n64\t2020-09-25\tAlteroUniversal\n15\t2020-09-24\tAlteroUniversal\n5\t2020-09-23\tAlteroUniversal\n8\t2020-09-22\tAlteroUniversal\n8\t2020-09-21\tAlteroUniversal\n19\t2020-09-18\tAlteroUniversal\n8\t2020-09-17\tAlteroUniversal\n18\t2020-09-16\tAlteroUniversal\n13\t2020-09-15\tAlteroUniversal\n21\t2020-09-14\tAlteroUniversal\n12\t2020-09-10\tAlteroUniversal\n10\t2020-09-09\tAlteroUniversal\n26\t2020-09-08\tAlteroUniversal\n8\t2020-09-07\tAlteroUniversal\n8\t2020-09-04\tAlteroUniversal\n42\t2020-09-03\tAlteroUniversal\n8\t2020-09-02\tAlteroUniversal\n12\t2020-09-01\tAlteroUniversal\n24\t2020-08-31\tAlteroUniversal\n53\t2020-08-28\tAlteroUniversal\n15\t2020-08-27\tAlteroUniversal\n11\t2020-08-26\tAlteroUniversal\n69\t2020-08-25\tAlteroUniversal\n23\t2020-08-24\tAlteroUniversal\n24\t2020-08-21\tAlteroUniversal\n24\t2020-08-20\tAlteroUniversal\n11\t2020-08-19\tAlteroUniversal\n27\t2020-08-18\tAlteroUniversal\n13\t2020-08-17\tAlteroUniversal\n3\t2020-08-14\tAlteroUniversal\n72\t2020-08-13\tAlteroUniversal\n19\t2020-08-12\tAlteroUniversal\n28\t2020-08-11\tAlteroUniversal\n39\t2020-08-10\tAlteroUniversal\n42\t2020-08-07\tAlteroUniversal\n20\t2020-08-06\tAlteroUniversal\n24\t2020-08-05\tAlteroUniversal\n24\t2020-08-04\tAlteroUniversal\n21\t2020-08-03\tAlteroUniversal\n13\t2020-07-31\tAlteroUniversal\n23\t2020-07-30\tAlteroUniversal\n4\t2020-07-29\tAlteroUniversal\n35\t2020-07-28\tAlteroUniversal\n9\t2020-07-27\tAlteroUniversal\n12\t2020-07-23\tAlteroUniversal\n5\t2020-07-22\tAlteroUniversal\n38\t2020-07-21\tAlteroUniversal\n24\t2020-07-20\tAlteroUniversal\n19\t2020-07-17\tAlteroUniversal\n41\t2020-07-16\tAlteroUniversal\n21\t2020-07-15\tAlteroUniversal\n37\t2020-07-14\tAlteroUniversal\n24\t2020-07-13\tAlteroUniversal\n2\t2020-07-12\tAlteroUniversal\n44\t2020-07-10\tAlteroUniversal\n16\t2020-07-09\tAlteroUniversal\n20\t2020-07-08\tAlteroUniversal\n20\t2020-07-07\tAlteroUniversal\n188\t2020-07-06\tAlteroUniversal\n4\t2020-07-05\tAlteroUniversal\n17\t2020-07-03\tAlteroUniversal\n42\t2020-07-02\tAlteroUniversal\n25\t2020-07-01\tAlteroUniversal\n55\t2020-06-30\tAlteroUniversal\n8\t2020-06-29\tAlteroUniversal\n26\t2020-06-26\tAlteroUniversal\n5\t2020-06-25\tAlteroUniversal\n8\t2020-06-24\tAlteroUniversal\n15\t2020-06-23\tAlteroUniversal\n143\t2020-06-22\tAlteroUniversal\n34\t2020-06-19\tAlteroUniversal\n46\t2020-06-18\tAlteroUniversal\n37\t2020-06-17\tAlteroUniversal\n12\t2020-06-16\tAlteroUniversal\n12\t2020-06-15\tAlteroUniversal\n38\t2020-06-11\tAlteroUniversal\n6\t2020-06-10\tAlteroUniversal\n10\t2020-06-09\tAlteroUniversal\n49\t2020-06-08\tAlteroUniversal\n18\t2020-06-07\tAlteroUniversal\n22\t2020-06-05\tAlteroUniversal\n17\t2020-06-03\tAlteroUniversal\n21\t2020-06-02\tAlteroUniversal\n19\t2020-06-01\tAlteroUniversal\n5\t2020-05-31\tAlteroUniversal\n38\t2020-05-29\tAlteroUniversal\n9\t2020-05-28\tAlteroUniversal\n18\t2020-05-27\tAlteroUniversal\n33\t2020-05-26\tAlteroUniversal\n4\t2020-05-25\tAlteroUniversal\n20\t2020-05-24\tAlteroUniversal\n41\t2020-05-22\tAlteroUniversal\n48\t2020-05-21\tAlteroUniversal\n18\t2020-05-20\tAlteroUniversal\n71\t2020-05-19\tAlteroUniversal\n65\t2020-05-18\tAlteroUniversal\n16\t2020-05-16\tAlteroUniversal\n15\t2020-05-15\tAlteroUniversal\n30\t2020-05-14\tAlteroUniversal\n50\t2020-05-13\tAlteroUniversal\n121\t2020-05-12\tAlteroUniversal\n4\t2020-05-11\tAlteroUniversal\n4\t2020-05-10\tAlteroUniversal\n32\t2020-05-08\tAlteroUniversal\n14\t2020-05-04\tAlteroUniversal\n6\t2020-04-30\tAlteroUniversal\n16\t2020-04-29\tAlteroUniversal\n19\t2020-04-28\tAlteroUniversal\n31\t2020-04-27\tAlteroUniversal\n8\t2020-04-25\tAlteroUniversal\n42\t2020-04-23\tAlteroUniversal\n32\t2020-04-22\tAlteroUniversal\n11\t2020-04-21\tAlteroUniversal\n32\t2020-04-20\tAlteroUniversal\n8\t2020-04-17\tAlteroUniversal\n4\t2020-04-16\tAlteroUniversal\n16\t2020-04-15\tAlteroUniversal\n7\t2020-04-14\tAlteroUniversal\n16\t2020-04-13\tAlteroUniversal\n16\t2020-04-10\tAlteroUniversal\n12\t2020-04-09\tAlteroUniversal\n2\t2020-04-08\tAlteroUniversal\n16\t2020-04-07\tAlteroUniversal\n33\t2020-04-06\tAlteroUniversal\n17\t2020-04-03\tAlteroUniversal\n4\t2020-04-02\tAlteroUniversal\n19\t2020-04-01\tAlteroUniversal\n61\t2020-03-30\tAlteroUniversal\n40\t2020-03-27\tAlteroUniversal\n1\t2020-03-26\tAlteroUniversal\n17\t2020-03-25\tAlteroUniversal\n2\t2020-03-24\tAlteroUniversal\n62\t2020-03-23\tAlteroUniversal\n16\t2020-03-21\tAlteroUniversal\n2\t2020-03-20\tAlteroUniversal\n1\t2020-03-19\tAlteroUniversal\n11\t2020-03-18\tAlteroUniversal\n11\t2020-03-17\tAlteroUniversal\n29\t2020-03-16\tAlteroUniversal\n46\t2020-03-15\tAlteroUniversal\n18\t2020-03-13\tAlteroUniversal\n40\t2020-03-12\tAlteroUniversal\n9\t2020-03-11\tAlteroUniversal\n12\t2020-03-10\tAlteroUniversal\n2\t2020-03-09\tAlteroUniversal\n40\t2020-03-07\tAlteroUniversal\n10\t2020-03-06\tAlteroUniversal\n7\t2020-03-05\tAlteroUniversal\n6\t2020-03-04\tAlteroUniversal\n110\t2020-03-02\tAlteroUniversal\n27\t2020-02-28\tAlteroUniversal\n19\t2020-02-27\tAlteroUniversal\n6\t2020-02-26\tAlteroUniversal\n12\t2020-02-25\tAlteroUniversal\n27\t2020-02-20\tAlteroUniversal\n9\t2020-02-19\tAlteroUniversal\n30\t2020-02-18\tAlteroUniversal\n18\t2020-02-17\tAlteroUniversal\n25\t2020-02-15\tAlteroUniversal\n12\t2020-02-14\tAlteroUniversal\n13\t2020-02-13\tAlteroUniversal\n26\t2020-02-12\tAlteroUniversal\n1\t2020-02-11\tAlteroUniversal\n26\t2020-02-10\tAlteroUniversal\n32\t2020-02-09\tAlteroUniversal\n57\t2020-02-07\tAlteroUniversal\n72\t2020-02-06\tAlteroUniversal\n1\t2020-02-05\tAlteroUniversal\n19\t2020-02-04\tAlteroUniversal\n1\t2020-02-03\tAlteroUniversal\n8\t2020-02-02\tAlteroUniversal\n3\t2020-02-01\tAlteroUniversal\n1\t2020-01-31\tAlteroUniversal\n16\t2020-01-30\tAlteroUniversal\n9\t2020-01-29\tAlteroUniversal\n29\t2020-01-28\tAlteroUniversal\n131\t2020-01-27\tAlteroUniversal\n8\t2020-01-24\tAlteroUniversal\n17\t2020-01-23\tAlteroUniversal\n8\t2020-01-22\tAlteroUniversal\n25\t2020-01-21\tAlteroUniversal\n8\t2020-01-20\tAlteroUniversal\n24\t2020-01-17\tAlteroUniversal\n32\t2020-01-16\tAlteroUniversal\n8\t2020-01-14\tAlteroUniversal\n73\t2020-01-13\tAlteroUniversal\n16\t2020-01-10\tAlteroUniversal\n16\t2019-12-23\tAlteroUniversal\n8\t2019-12-20\tAlteroUniversal\n18\t2019-12-18\tAlteroUniversal\n8\t2019-12-17\tAlteroUniversal\n64\t2019-12-13\tAlteroUniversal\n13\t2019-12-10\tAlteroUniversal\n8\t2019-12-09\tAlteroUniversal\n6\t2019-12-06\tAlteroUniversal\n24\t2019-12-05\tAlteroUniversal\n16\t2019-12-02\tAlteroUniversal\n32\t2019-11-28\tAlteroUniversal\n56\t2019-11-22\tAlteroUniversal\n3\t2019-11-20\tAlteroUniversal\n3\t2019-11-19\tAlteroUniversal\n16\t2019-11-18\tAlteroUniversal\n48\t2019-11-15\tAlteroUniversal\n16\t2019-11-14\tAlteroUniversal\n24\t2019-11-13\tAlteroUniversal\n16\t2019-11-12\tAlteroUniversal\n14\t2019-11-11\tAlteroUniversal\n12\t2019-11-09\tAlteroUniversal\n19\t2019-11-08\tAlteroUniversal\n21\t2019-11-07\tAlteroUniversal\n9\t2019-11-06\tAlteroUniversal\n81\t2019-11-05\tAlteroUniversal\n8\t2019-11-01\tAlteroUniversal\n16\t2019-10-31\tAlteroUniversal\n12\t2019-10-29\tAlteroUniversal\n24\t2019-10-28\tAlteroUniversal\n70\t2019-10-25\tAlteroUniversal\n40\t2019-10-24\tAlteroUniversal\n4\t2019-10-23\tAlteroUniversal\n16\t2019-10-22\tAlteroUniversal\n3\t2019-10-21\tAlteroUniversal\n40\t2019-10-20\tAlteroUniversal\n6\t2019-10-18\tAlteroUniversal\n8\t2019-10-17\tAlteroUniversal\n36\t2019-10-16\tAlteroUniversal\n10\t2019-10-15\tAlteroUniversal\n53\t2019-10-14\tAlteroUniversal\n8\t2019-10-11\tAlteroUniversal\n40\t2019-10-10\tAlteroUniversal\n8\t2019-10-09\tAlteroUniversal\n32\t2019-10-08\tAlteroUniversal\n9\t2019-10-05\tAlteroUniversal\n16\t2019-10-03\tAlteroUniversal\n3\t2019-10-02\tAlteroUniversal\n152\t2019-09-30\tAlteroUniversal\n2\t2019-09-27\tAlteroUniversal\n1\t2019-09-26\tAlteroUniversal\n16\t2019-09-25\tAlteroUniversal\n24\t2019-09-23\tAlteroUniversal\n4\t2019-09-17\tAlteroUniversal\n5\t2019-09-16\tAlteroUniversal\n2\t2019-09-12\tAlteroUniversal\n11\t2019-09-10\tAlteroUniversal\n0\t2019-09-09\tAlteroUniversal\n16\t2019-09-06\tAlteroUniversal\n8\t2019-09-05\tAlteroUniversal\n18\t2019-09-04\tAlteroUniversal\n24\t2019-09-03\tAlteroUniversal\n48\t2019-09-02\tAlteroUniversal\n16\t2019-08-29\tAlteroUniversal\n13\t2019-08-27\tAlteroUniversal\n8\t2019-08-26\tAlteroUniversal\n8\t2019-08-22\tAlteroUniversal\n8\t2019-08-20\tAlteroUniversal\n16\t2019-08-16\tAlteroUniversal\n27\t2019-08-15\tAlteroUniversal\n16\t2019-08-14\tAlteroUniversal\n0\t2019-08-12\tAlteroUniversal\n8\t2019-08-09\tAlteroUniversal\n32\t2019-08-07\tAlteroUniversal\n8\t2019-08-06\tAlteroUniversal\n19\t2019-08-05\tAlteroUniversal\n16\t2019-08-02\tAlteroUniversal\n1\t2019-08-01\tAlteroUniversal\n0\t2019-07-29\tAlteroUniversal\n15\t2019-07-26\tAlteroUniversal\n8\t2019-07-25\tAlteroUniversal\n45\t2019-07-24\tAlteroUniversal\n16\t2019-07-23\tAlteroUniversal\n24\t2019-07-22\tAlteroUniversal\n7\t2019-07-19\tAlteroUniversal\n2\t2019-07-18\tAlteroUniversal\n0\t2019-07-17\tAlteroUniversal\n1\t2019-07-15\tAlteroUniversal\n32\t2019-07-13\tAlteroUniversal\n6\t2019-07-12\tAlteroUniversal\n4\t2019-07-11\tAlteroUniversal\n47\t2019-07-10\tAlteroUniversal\n4\t2019-07-09\tAlteroUniversal\n1\t2019-07-08\tAlteroUniversal\n2\t2019-07-03\tAlteroUniversal\n4\t2019-07-02\tAlteroUniversal\n2\t2019-07-01\tAlteroUniversal\n2\t2019-06-28\tAlteroUniversal\n0\t2019-06-26\tAlteroUniversal\n4\t2019-06-24\tAlteroUniversal\n8\t2019-06-20\tAlteroUniversal\n4\t2019-05-22\tAlteroUniversal\n1\t2019-05-21\tAlteroUniversal\n2\t2019-05-14\tAlteroUniversal\n4\t2019-05-13\tAlteroUniversal\n24\t2019-04-26\tAlteroUniversal\n18\t2019-04-25\tAlteroUniversal\n2\t2019-04-24\tAlteroUniversal\n5\t2019-04-23\tAlteroUniversal\n15\t2019-04-22\tAlteroUniversal\n34\t2019-04-21\tAlteroUniversal\n1\t2019-04-18\tAlteroUniversal\n1\t2019-04-17\tAlteroUniversal\n8\t2019-04-15\tAlteroUniversal\n0\t2019-04-12\tAlteroUniversal\n4\t2019-04-09\tAlteroUniversal\n0\t2019-03-22\tAlteroUniversal\n0\t2019-03-20\tAlteroUniversal\n7\t2019-03-15\tAlteroUniversal\n1\t2019-03-13\tAlteroUniversal\n10\t2019-03-11\tAlteroUniversal\n8\t2019-03-04\tAlteroUniversal\n0\t2019-03-02\tAlteroUniversal\n8\t2019-03-01\tAlteroUniversal\n8\t2019-02-28\tAlteroUniversal\n83\t2019-02-27\tAlteroUniversal\n16\t2019-02-19\tAlteroUniversal\n36\t2019-02-18\tAlteroUniversal\n2\t2019-02-15\tAlteroUniversal\n9\t2019-02-13\tAlteroUniversal\n2\t2019-02-12\tAlteroUniversal\n56\t2019-02-11\tAlteroUniversal\n33\t2019-02-08\tAlteroUniversal\n24\t2019-02-04\tAlteroUniversal\n40\t2019-02-01\tAlteroUniversal\n5\t2019-01-31\tAlteroUniversal\n85\t2019-01-30\tAlteroUniversal\n64\t2019-01-28\tAlteroUniversal\n4\t2019-01-25\tAlteroUniversal\n60\t2019-01-24\tAlteroUniversal\n79\t2019-01-23\tAlteroUniversal\n30\t2019-01-21\tAlteroUniversal\n30\t2019-01-18\tAlteroUniversal\n3\t2019-01-17\tAlteroUniversal\n2\t2019-01-16\tAlteroUniversal\n2\t2019-01-15\tAlteroUniversal\n2\t2018-12-11\tAlteroUniversal\n40\t2018-11-16\tAlteroUniversal\n10\t2018-11-13\tAlteroUniversal\n88\t2018-09-20\tAlteroUniversal\n8\t2018-08-28\tAlteroUniversal\n2\t2018-08-10\tAlteroUniversal\n9\t2018-08-08\tAlteroUniversal\n80\t2018-08-03\tAlteroUniversal\n8\t2018-07-20\tAlteroUniversal\n24\t2018-07-17\tAlteroUniversal\n1\t2018-07-09\tAlteroUniversal\n2\t2018-07-03\tAlteroUniversal\n32\t2018-07-02\tAlteroUniversal\n3\t2018-06-29\tAlteroUniversal\n16\t2018-06-08\tAlteroUniversal\n1\t2018-05-23\tAlteroUniversal\n3\t2018-05-18\tAlteroUniversal\n3\t2018-05-07\tAlteroUniversal\n122\t2018-04-04\tAlteroUniversal\n2\t2018-04-03\tAlteroUniversal\n0\t2018-03-30\tAlteroUniversal\n3\t2018-03-20\tAlteroUniversal\n4\t2018-02-22\tAlteroUniversal\n4\t2018-02-21\tAlteroUniversal\n164\t2018-02-13\tAlteroUniversal\n32\t2018-02-06\tAlteroUniversal\n1\t2018-01-15\tAlteroUniversal\n37\t2018-01-11\tAlteroUniversal\n20\t2017-12-28\tAlteroUniversal\n9\t2017-12-27\tAlteroUniversal\n12\t2017-12-20\tAlteroUniversal\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1618150673440_769418283",
+      "id": "paragraph_1618150673440_769418283",
+      "dateCreated": "2021-04-11T14:17:53+0000",
+      "dateStarted": "2021-04-11T22:02:31+0000",
+      "dateFinished": "2021-04-11T22:02:31+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:185"
+    },
+    {
+      "user": "anonymous",
+      "dateUpdated": "2021-04-11T21:51:15+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1618177677042_2018505577",
+      "id": "paragraph_1618177677042_2018505577",
+      "dateCreated": "2021-04-11T21:47:57+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:186"
+    }
+  ],
+  "name": "jira analytics",
+  "id": "2G566G4QE",
+  "defaultInterpreterGroup": "postgres",
+  "version": "0.9.0",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false,
+    "looknfeel": "default",
+    "personalizedMode": "false",
+    "noteFormTitle": "kiril"
+  },
+  "info": {
+    "isRunning": false
+  },
+  "path": "/jira analytics"
+}
