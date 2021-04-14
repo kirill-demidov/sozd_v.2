@@ -12,7 +12,7 @@ try:
     #27 Scrum_board_GWF
     #135 Sprint ID 22.03.2021 - 05.04.2021
 
-    url = "https://alterosmart.atlassian.net/rest/agile/1.0/board/27/sprint/135/issue?maxResults=500"
+    url = "https://alterosmart.atlassian.net/rest/agile/1.0/board/27/sprint/136/issue?maxResults=500"
 
     headers = {
         "Accept": "application/json"
@@ -33,7 +33,7 @@ try:
         needfinish = startAt + maxResults > total
         #             print (total,startAt,maxResults)
         startAt = startAt + issues_in_sprint['maxResults']
-        with open('personal.json', 'w') as json_file:
+        with open('sprint_136.json', 'w') as json_file:
             json.dump(issues_in_sprint, json_file)
             print('file is ready')
         # print (issues_in_sprint['issues']['id'])
