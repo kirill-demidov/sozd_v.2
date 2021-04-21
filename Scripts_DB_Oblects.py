@@ -675,7 +675,7 @@ CREATE OR REPLACE PROCEDURE public.insert_stg_fact_issues_worklog()
 AS $procedure$
 truncate table public.stg_fact_issues_worklog;
 insert into public.stg_fact_issues_worklog
-select
+select distinct
 	a.worklog_id ,
 	a.issue_id ,
 	b.project_id,
