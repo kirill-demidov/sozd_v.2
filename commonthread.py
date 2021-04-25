@@ -17,9 +17,11 @@ import commonthread
 lock = Lock()
 is_live = True
 connection = None
-host_db = 'bi-postgres'
-# host_db = '127.0.0.1'
+# host_db = '178.62.60.87'
+# host_db = 'bi-postgres'
+host_db = '127.0.0.1'
 port_db = 5432
+# name_db = 'postgres'
 name_db = 'postgres'
 user_name = 'postgres'
 password = 'password'
@@ -104,7 +106,7 @@ class TImport(threading.Thread):
                 if not error:
                     t_st = datetime.datetime.now()
                     error, result = issues_filed.issues_fields(auth, connection)
-                    write_log(txt_result(error), 'issues_filed', 'issues_filed: ' + result + print_dest(t_st))
+                    write_log(txt_result(error), 'issues_field', 'issues_field: ' + result + print_dest(t_st))
                     #  send(messages=[time.ctime(), " issues_filed: " + result + print_dest(t_st)])
                     if not error:
                         t_st = datetime.datetime.now()
