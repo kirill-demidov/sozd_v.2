@@ -3,6 +3,7 @@ txt_scripts = '''CREATE TABLE if not exists public.dwh_bridge_user_group (
 				user_id varchar NOT NULL,
 				group_id varchar NOT NULL,
 				id int4 NOT NULL,
+				created_at timestamp default CURRENT_TIMESTAMP,
 				CONSTRAINT dwh_bridge_user_group_pk PRIMARY KEY (id)
 );
 
@@ -13,6 +14,7 @@ CREATE TABLE  if not exists public.dwh_bridge_user_role_project (
 	user_id varchar NULL,
 	project_id int4 NULL,
 	role_id int4 NULL,
+	created_at timestamp default CURRENT_TIMESTAMP,
 	CONSTRAINT dwh_bridge_user_role_project_pk PRIMARY KEY (id)
 );
 
@@ -20,6 +22,7 @@ CREATE TABLE  if not exists public.dwh_bridge_user_role_project (
 CREATE TABLE  if not exists public.dwh_dim_groups (
 	group_id varchar NOT NULL,
 	group_name varchar NULL,
+	created_at timestamp default CURRENT_TIMESTAMP,
 	CONSTRAINT dwh_dim_groups_pk PRIMARY KEY (group_id)
 );
 
@@ -30,6 +33,7 @@ CREATE TABLE if not exists  public.dwh_dim_projects (
 	project_key varchar NULL,
 	project_name varchar NULL,
 	project_type varchar NULL,
+	created_at timestamp default CURRENT_TIMESTAMP,
 	CONSTRAINT dwh_dim_projects_pk PRIMARY KEY (project_id)
 );
 
@@ -38,6 +42,7 @@ CREATE TABLE if not exists  public.dwh_dim_projects (
 CREATE TABLE  if not exists public.dwh_dim_roles (
 	role_id int4 NOT NULL,
 	role_name varchar NULL,
+	created_at timestamp default CURRENT_TIMESTAMP,
 	CONSTRAINT dwh_dim_roles_pk PRIMARY KEY (role_id)
 );
 
@@ -47,6 +52,7 @@ CREATE TABLE  if not exists public.dwh_dim_users (
 	user_name varchar NULL,
 	user_status varchar NULL,
 	user_id varchar NOT NULL,
+	created_at timestamp default CURRENT_TIMESTAMP,
 	CONSTRAINT dwh_dim_users_pk PRIMARY KEY (user_id)
 );
 
@@ -67,6 +73,7 @@ CREATE TABLE if not exists  public.dwh_fact_issue (
 	issue_status varchar NULL,
 	issue_summary varchar NULL,
 	issue_resolution varchar NULL,
+	created_at timestamp default CURRENT_TIMESTAMP,
 	CONSTRAINT dwh_fact_issue_pk PRIMARY KEY (issue_id)
 );
 
@@ -80,6 +87,7 @@ CREATE TABLE  if not exists public.dwh_fact_issues_worklog (
 	updater_id varchar NULL,
 	active_sprint_id int4 NULL,
 	active_sprint_name varchar NULL,
+	created_at timestamp default CURRENT_TIMESTAMP,
 	CONSTRAINT dwh_fact_issues_worklog_pk PRIMARY KEY (worklog_id)
 );
 
@@ -91,20 +99,23 @@ CREATE TABLE  if not exists public.dwh_fact_status_duration (
 	field_name varchar NULL,
 	status varchar NULL,
 	duration_hours int4 NULL,
+	created_at timestamp default CURRENT_TIMESTAMP,
 	CONSTRAINT dwh_fact_status_duration_pk PRIMARY KEY (changelog_id)
 );
 
 CREATE TABLE if not exists public.mng_bridge_user_group (
 	id int4 NOT NULL GENERATED ALWAYS AS IDENTITY,
 	user_id varchar NULL,
-	group_id varchar NULL
+	group_id varchar NULL,
+	created_at timestamp default CURRENT_TIMESTAMP
 );
 
 CREATE TABLE  if not exists public.mng_bridge_user_role_project (
 	id int4 NOT NULL GENERATED ALWAYS AS IDENTITY,
 	user_id varchar NULL,
 	project_id int4 NULL,
-	role_id int4 NULL
+	role_id int4 NULL,
+	created_at timestamp default CURRENT_TIMESTAMP
 );
 
 
@@ -115,14 +126,16 @@ CREATE TABLE  if not exists public.mrr_changelog (
 	filed_name varchar NULL,
 	old_value varchar NULL,
 	new_value varchar NULL,
-	user_id varchar NULL
+	user_id varchar NULL,
+	created_at timestamp default CURRENT_TIMESTAMP
 );
 
 
 CREATE TABLE  if not exists public.mrr_groups (
 	"name" varchar NULL,
 	html varchar NULL,
-	groupid varchar NULL
+	groupid varchar NULL,
+	created_at timestamp default CURRENT_TIMESTAMP
 );
 
 
@@ -131,13 +144,15 @@ CREATE TABLE  if not exists public.mrr_groups_users (
 	groupname varchar NULL,
 	accounttype varchar NULL,
 	accountid varchar NULL,
-	isactive varchar NULL
+	isactive varchar NULL,
+	created_at timestamp default CURRENT_TIMESTAMP
 );
 
 
 CREATE TABLE  if not exists public.mrr_issue_fields (
 	field_id varchar NULL,
-	field_name varchar NULL
+	field_name varchar NULL,
+	created_at timestamp default CURRENT_TIMESTAMP
 );
 
 
@@ -159,7 +174,8 @@ CREATE TABLE  if not exists public.mrr_issues (
 	issue_creator varchar NULL,
 	issue_reporter varchar NULL,
 	issue_assignee varchar NULL,
-	issue_status varchar NULL
+	issue_status varchar NULL,
+	created_at timestamp default CURRENT_TIMESTAMP
 );
 
 
@@ -168,21 +184,24 @@ CREATE TABLE  if not exists public.mrr_labels (
 	label_text varchar NULL,
 	title varchar NULL,
 	lable_type varchar NULL,
-	groupid varchar NULL
+	groupid varchar NULL,
+	created_at timestamp default CURRENT_TIMESTAMP
 );
 
 
 CREATE TABLE  if not exists public.mrr_project_role_user (
 	user_name varchar NULL,
 	role_id int4 NULL,
-	project_id int4 NULL
+	project_id int4 NULL,
+	created_at timestamp default CURRENT_TIMESTAMP
 );
 
 
 CREATE TABLE  if not exists public.mrr_project_roles (
 	roleid int4 NULL,
 	rolename varchar NULL,
-	projectid int4 NULL
+	projectid int4 NULL,
+	created_at timestamp default CURRENT_TIMESTAMP
 );
 
 CREATE TABLE  if not exists public.mrr_projects (
@@ -190,7 +209,8 @@ CREATE TABLE  if not exists public.mrr_projects (
 	isprivate varchar(100) NULL,
 	"key" varchar NULL,
 	"name" varchar NULL,
-	projecttypekey varchar NULL
+	projecttypekey varchar NULL,
+	created_at timestamp default CURRENT_TIMESTAMP
 );
 
 
@@ -198,7 +218,8 @@ CREATE TABLE  if not exists public.mrr_users (
 	accounttype varchar NULL,
 	display_name varchar NULL,
 	status varchar NULL,
-	userid varchar NULL
+	userid varchar NULL,
+	created_at timestamp default CURRENT_TIMESTAMP
 );
 
 
@@ -213,7 +234,8 @@ CREATE TABLE  if not exists public.mrr_worklog (
 	time_spent_sec int4 NULL,
 	updater_id varchar NULL,
 	active_sprint_id int4 NULL,
-	active_sprint_name varchar NULL
+	active_sprint_name varchar NULL,
+	created_at timestamp default CURRENT_TIMESTAMP
 );
 
 
@@ -221,6 +243,7 @@ CREATE TABLE  if not exists public.stg_bridge_user_group (
 	user_id varchar NOT NULL,
 	group_id varchar NOT NULL,
 	id int4 NOT NULL,
+	created_at timestamp default CURRENT_TIMESTAMP,
 	CONSTRAINT stg_bridge_user_group_pk PRIMARY KEY (id)
 );
 
@@ -230,6 +253,7 @@ CREATE TABLE  if not exists public.stg_bridge_user_role_project (
 	user_id varchar NULL,
 	project_id int4 NULL,
 	role_id int4 NULL,
+	created_at timestamp default CURRENT_TIMESTAMP,
 	CONSTRAINT stg_bridge_user_role_project_pk PRIMARY KEY (id)
 );
 
@@ -239,12 +263,14 @@ CREATE TABLE  if not exists public.stg_changelog_duration (
 	field_name varchar NULL,
 	value varchar NULL,
 	duration_hours int4 NULL,
-	issue_id int4 NULL
+	issue_id int4 NULL,
+	created_at timestamp default CURRENT_TIMESTAMP
 );
 
 CREATE TABLE  if not exists public.stg_dim_groups (
 	group_id varchar NOT NULL,
 	group_name varchar NULL,
+	created_at timestamp default CURRENT_TIMESTAMP,
 	CONSTRAINT stg_dim_groups_pk PRIMARY KEY (group_id)
 );
 
@@ -254,6 +280,7 @@ CREATE TABLE  if not exists public.stg_dim_projects (
 	project_key varchar NULL,
 	project_name varchar NULL,
 	project_type varchar NULL,
+	created_at timestamp default CURRENT_TIMESTAMP,
 	CONSTRAINT stg_dim_projects_pk PRIMARY KEY (project_id)
 );
 
@@ -261,6 +288,7 @@ CREATE TABLE  if not exists public.stg_dim_projects (
 CREATE TABLE  if not exists public.stg_dim_roles (
 	role_id int4 NOT NULL,
 	role_name varchar NULL,
+	created_at timestamp default CURRENT_TIMESTAMP,
 	CONSTRAINT stg_dim_roles_pk PRIMARY KEY (role_id)
 );
 
@@ -268,7 +296,8 @@ CREATE TABLE  if not exists public.stg_dim_user_group (
 	user_name varchar NULL,
 	account_type varchar NULL,
 	group_name varchar NULL,
-	user_status varchar NULL
+	user_status varchar NULL,
+	created_at timestamp default CURRENT_TIMESTAMP
 );
 
 CREATE TABLE  if not exists public.stg_dim_user_project_role (
@@ -277,7 +306,8 @@ CREATE TABLE  if not exists public.stg_dim_user_project_role (
 	role_name varchar NULL,
 	user_account_type varchar NULL,
 	user_status varchar NULL,
-	group_name varchar NULL
+	group_name varchar NULL,
+	created_at timestamp default CURRENT_TIMESTAMP
 );
 
 
@@ -286,6 +316,7 @@ CREATE TABLE  if not exists public.stg_dim_users (
 	user_name varchar NULL,
 	user_status varchar NULL,
 	user_id varchar NOT NULL,
+	created_at timestamp default CURRENT_TIMESTAMP,
 	CONSTRAINT stg_dim_users_pk PRIMARY KEY (user_id)
 );
 
@@ -305,6 +336,7 @@ CREATE TABLE  if not exists public.stg_fact_issue (
 	issue_status varchar NULL,
 	issue_summary varchar NULL,
 	issue_resolution varchar NULL,
+	created_at timestamp default CURRENT_TIMESTAMP,
 	CONSTRAINT stg_fact_issue_pk PRIMARY KEY (issue_id)
 );
 
@@ -318,6 +350,7 @@ CREATE TABLE  if not exists public.stg_fact_issues_worklog (
 	updater_id varchar NULL,
 	active_sprint_id int4 NULL,
 	active_sprint_name varchar NULL,
+	created_at timestamp default CURRENT_TIMESTAMP,
 	CONSTRAINT stg_fact_issues_worklog_pk PRIMARY KEY (worklog_id)
 );
 
