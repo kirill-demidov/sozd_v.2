@@ -18,7 +18,8 @@ def issues(auth, connection):
     row_count = 0
     try:
         cursor = connection.cursor()
-        url = "https://alterosmart.atlassian.net/rest/api/3/search?jql="
+        url = "https://alterosmart.atlassian.net/rest/api/3/search?jql=created>=-1w%20OR%20updated>=-1w" #last week data load
+        # url = "https://alterosmart.atlassian.net/rest/api/3/search?jql=" #full data load
 
         headers = {
             "Accept": "application/json"
@@ -72,7 +73,7 @@ def issues(auth, connection):
                     '" + str(issue_resolution).replace("'", "''") + "','" + str(issue_summ).replace("'", "''") + "');"
                 #                 print(insert_issues)
                 cursor.execute(insert_issues)
-                # sql_text = insert_issues
+                sql_text = insert_issues
                 row_count = row_count + 1
                 # url_worklog = "https://alterosmart.atlassian.net/rest/api/3/issue/" + issue_id + "/changelog"
                 # headers = {"Accept": "application/json"}
@@ -84,8 +85,8 @@ def issues(auth, connection):
                 # )
                 # worklogs = json.loads(response.text)
                 # logs = worklogs['values']
-
-                # # print (type(items))
+                #
+                # # # print (type(items))
                 # for log in logs:
                 #     changelog_id = log['id']
                 #     items = log['items']
