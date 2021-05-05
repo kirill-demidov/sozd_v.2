@@ -18,13 +18,13 @@ commonthread.password = commonthread.isNull(os.environ.get("Jira_pasword"), comm
 commonthread.discret = int(commonthread.isNull(os.environ.get("Jira_discret"), commonthread.discret))
 commonthread.first_time = int(commonthread.isNull(os.environ.get("Jira_first_time"), commonthread.first_time))
 #  создать коннекцию к БД и апдейтить ее
-commonthread.connection, result = commonthread.connect_and_update_db()
+# commonthread.connection, result = commonthread.connect_and_update_db()
 
-if not result:  # оршибки БД
-    # send(messages=[time.ctime()+": error "+f"{err}"])
-    exit(-5)
-else:  # создаем поток и запускаем его на работу
-    start_thread()
+# if not result:  # оршибки БД
+#     # send(messages=[time.ctime()+": error "+f"{err}"])
+#     exit(-5)
+# else:  # создаем поток и запускаем его на работу
+start_thread()
 
 # уходим в бесконечный цикл
 while True:

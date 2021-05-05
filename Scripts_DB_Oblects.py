@@ -1,5 +1,6 @@
 
-txt_scripts = '''CREATE TABLE if not exists public.dwh_bridge_user_group (
+txt_scripts = '''
+CREATE TABLE if not exists public.dwh_bridge_user_group (
 				user_id varchar NOT NULL,
 				group_id varchar NOT NULL,
 				id int4 NOT NULL,

@@ -27,7 +27,7 @@ user_name = 'postgres'
 password = 'password'
 # password = 'postgres'
 #  дискретность (для суток 86400, один час - 3600)
-discret = 86400
+discret = 3600
 # начальная точка отсчета дискретностей (7200 - 2 часа ночи)
 first_time = 7200
 
