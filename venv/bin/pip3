@@ -1,4 +1,4 @@
-#!/Users/kirilldemidov/PycharmProjects/sozd-voting/venv/bin/python
+#!/Users/kirilldemidov/PycharmProjects/sozd/venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
