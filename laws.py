@@ -62,14 +62,15 @@ start_at = 0
 row_count = 0
 page = 0
 need_finish = False
-url_for_total_count =  'http://api.duma.gov.ru/api/'+api_token+'/voteSearch.json?app_token='+app_token
+url_for_total_count =  'http://api.duma.gov.ru/api/'+api_token+'/search.json?app_token='+app_token
 response = requests.request('GET',url_for_total_count)
 result = json.loads(response.text)
-total = (int(result['totalCount']))
-truncate_table()
+total = (int(result['count']))
+# truncate_table()
 pages_number = total/100
+# print(total)
 while not need_finish:
-    url = 'http://api.duma.gov.ru/api/'+api_token+'/voteSearch.json?app_token='+app_token+'&limit=100&page='+str(page)
+    url = 'http://api.duma.gov.ru/api/'+api_token+'/search.json?app_token='+app_token+'&limit=20&page='+str(page)
     response = requests.request(
                     "GET",
                     url
@@ -78,31 +79,37 @@ while not need_finish:
     result = json.loads(response.text)
     need_finish = page > pages_number
     page = page + 1
-    if 'votes' in result:
-        votes = result['votes']
-        for vote in votes:
-                voteId = vote['id']
-                subject = vote['subject']
-                law_id = re.search(r'\d{7}-\d{1}',subject)
-                if law_id:
-                   law_number = law_id.group()
-                   law_voting_flag = 1
-                else:
-                    law_number = 'голосование не по законопроекту'
-                    law_voting_flag = 0
-                vote_date = vote['voteDate']
-                vote_count = vote['voteCount']
-                vote_for = vote ['forCount']
-                vote_against = vote['againstCount']
-                vote_abstain = vote['abstainCount']
-                vote_absent = vote['absentCount']
-                vote_result_type = vote['resultType']
-                is_vote_true = vote['result']
-                insert_sql = "INSERT INTO public.mrr_votes\
-                (voteid, sublect, law_number, law_voting_flag, vote_date, vote_count, \
-                vote_for, vote_against, vote_abstain, vote_absent, vote_result_type)\
-                VALUES(" + "'" + str(voteId) + "','" + str(subject) + "','" + \
-                                        str(law_number) + "','" + str(law_voting_flag) + "','" + str(vote_date) + \
-                                        "','" + str(vote_count) + "','" + str(vote_for) + "','" + \
-                                        str(vote_against) + "','"+str(vote_abstain) + "','"+str(vote_absent) + "','"+str(vote_result_type) + "');"
-                connect()
+    laws = result['laws']
+    for n in range(0, len(laws)):
+        law_id = laws[n]['id']
+        law_number = laws[n]['number']
+        law_name = laws[n]['name']
+        law_comments = laws[n]['comments']
+        law_introductionDate = laws[n]['introductionDate']
+        law_url = laws[n]['url']
+        last_event = laws[n]['lastEvent']
+        event_solution = last_event['solution']
+        event_date = last_event ['date']
+        for event in last_event:
+            for stage in event:
+                stage_id = last_event['stage']['id']
+            for phase in event:
+                phase_id = last_event['phase']['id']
+        deputies = laws[n]['subject']['deputies']
+        if len(deputies)>0:
+            for i in range(0, len(deputies)):
+                deputy_id = deputies[i]['id']
+                deputy_position = deputies[i]['position']
+                is_deputy_current = deputies[i]['isCurrent']
+        departments = laws[n]['subject']['departments']
+        if len(departments)>0:
+            for a in range(0, len(departments)):
+                department_id = departments[a]['id']
+                department_name = departments[a]['name']
+                department_isCurrent = departments[a]['isCurrent']
+                department_startDate = departments[a]['startDate']
+                department_endDate = departments[a]['endDate']
+        fractions = laws[n]['subject']['factions']
+        if len(fractions)>0:
+            for b in range(0,len(fractions)):
+                fraction_id = fractions[b]['id']

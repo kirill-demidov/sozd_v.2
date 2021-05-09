@@ -20,6 +20,7 @@ def write_log(level: str, src: str, msg: str, with_out_lf = False):
     else:
         print(st)
     lock.release()
+
 def connect():
     try:
         conn = psycopg2.connect(
@@ -37,8 +38,8 @@ def connect():
 
 api_token = '102a38817f1a483cf2410bcc268ec51bf7baa01e'
 app_token = 'appe6928a827a71f84553973a79e0ac07e7cb1a4560'
-url_for_total_count =  'http://api.duma.gov.ru/api/'+api_token+'/deputies.json?app_token='+app_token
-response = requests.request('GET',url_for_total_count)
+url =  'http://api.duma.gov.ru/api/'+api_token+'/deputies.json?app_token='+app_token
+response = requests.request('GET',url)
 result = json.loads(response.text)
 
 n = 0
