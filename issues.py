@@ -18,7 +18,7 @@ def issues(auth, connection):
     row_count = 0
     try:
         cursor = connection.cursor()
-        url = "https://alterosmart.atlassian.net/rest/api/3/search?jql=created>=-1w%20OR%20updated>=-1w" #last week data load
+        url = "https://alterosmart.atlassian.net/rest/api/3/search?jql=created>=-1w%20OR%20updated>=-2w" #last week data load
         # url = "https://alterosmart.atlassian.net/rest/api/3/search?jql=" #full data load
 
         headers = {
