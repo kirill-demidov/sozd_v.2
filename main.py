@@ -8,7 +8,7 @@ def start_thread():
     at.start()
     commonthread.is_live = True
 
-commonthread.write_log('WARN', 'Main', 'Start ETL process')
+commonthread.write_log('WARN', 'Main', 'Start ETL process at (UTC time)'+time.ctime())
 # прочитаем параметры из окружения, если нет кого-то, то используются по умолчанию
 commonthread.host_db = commonthread.isNull(os.environ.get("Jira_host_db"), commonthread.host_db)
 commonthread.port_db = int(commonthread.isNull(os.environ.get("Jira_port_db"), commonthread.port_db))
@@ -17,9 +17,9 @@ commonthread.user_name = commonthread.isNull(os.environ.get("Jira_user_name"), c
 commonthread.password = commonthread.isNull(os.environ.get("Jira_pasword"), commonthread.password)
 commonthread.discret = int(commonthread.isNull(os.environ.get("Jira_discret"), commonthread.discret))
 commonthread.first_time = int(commonthread.isNull(os.environ.get("Jira_first_time"), commonthread.first_time))
+commonthread.write_log('INFO', 'Main', 'host_db='+commonthread.host_db+'; name_db='+commonthread.name_db )
 #  создать коннекцию к БД и апдейтить ее
 commonthread.connection, result = commonthread.connect_and_update_db()
-commonthread.write_log('INFO', 'Main', 'host_db='+commonthread.host_db+'; name_db='+commonthread.name_db )
 
 if not result:  # оршибки БД
     # send(messages=[time.ctime()+": error "+f"{err}"])

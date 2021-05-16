@@ -81,7 +81,7 @@ class TImport(threading.Thread):
         self.connection = conn
 
     def make_work(self):
-        write_log('INFO', 'START', time.ctime())
+        # write_log('INFO', 'START', time.ctime())
         auth = HTTPBasicAuth("k.demidov@alterosmart.com", "L99Ib8xsuFJKtvTn8SpM8F3C")
         commonthread.t_0 = datetime.datetime.now()
         t_st = datetime.datetime.now()
