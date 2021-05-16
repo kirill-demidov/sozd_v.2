@@ -42,13 +42,9 @@ def txt_result(error):
 
 
 def write_log(level: str, src: str, msg: str, with_out_lf = False):
-    st = "lvl=" + level + ' ' + 'src="' + str(src).replace('"', "'") + '" msg="' + str(msg).replace('"', "'") + '"'
-    lock.acquire()
-    if with_out_lf:
-        print(st, flush=True)
-    else:
-        print(st)
-    lock.release()
+    st = "lvl=" + level + ' ' + 'src="' + str(src).replace('"', "'") +\
+         '" msg="' + str(msg).replace('"', "'") + '"'
+    print(st, flush=True)
 
 
 def get_value_time(t):
