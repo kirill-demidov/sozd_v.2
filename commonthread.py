@@ -45,7 +45,7 @@ def write_log(level: str, src: str, msg: str, with_out_lf = False):
     st = "lvl=" + level + ' ' + 'src="' + str(src).replace('"', "'") + '" msg="' + str(msg).replace('"', "'") + '"'
     lock.acquire()
     if with_out_lf:
-        print("\r" + st, end="\r",flush=True)
+        print(st, flush=True)
     else:
         print(st)
     lock.release()
