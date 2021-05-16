@@ -19,6 +19,7 @@ commonthread.discret = int(commonthread.isNull(os.environ.get("Jira_discret"), c
 commonthread.first_time = int(commonthread.isNull(os.environ.get("Jira_first_time"), commonthread.first_time))
 #  создать коннекцию к БД и апдейтить ее
 commonthread.connection, result = commonthread.connect_and_update_db()
+commonthread.write_log('INFO', 'Main', 'host_db='+commonthread.host_db+'; name_db='+commonthread.name_db )
 
 if not result:  # оршибки БД
     # send(messages=[time.ctime()+": error "+f"{err}"])
