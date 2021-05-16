@@ -8,7 +8,7 @@ def start_thread():
     at.start()
     commonthread.is_live = True
 
-
+commonthread.write_log('WARN', 'Main', 'Start ETL process')
 # прочитаем параметры из окружения, если нет кого-то, то используются по умолчанию
 commonthread.host_db = commonthread.isNull(os.environ.get("Jira_host_db"), commonthread.host_db)
 commonthread.port_db = int(commonthread.isNull(os.environ.get("Jira_port_db"), commonthread.port_db))
