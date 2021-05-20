@@ -116,9 +116,9 @@ class TImport(threading.Thread):
                             #  send(messages=[time.ctime(), " worklog: " + result + print_dest(t_st)])
                             if not error:
                                 t_st = datetime.datetime.now()
-                                error, result = postgres_etl.postgres_etl(connection)
-                                write_log(
-                                    txt_result(error), 'postgres_etl', 'postgres_etl: ' + result + print_dest(t_st))
+                                # error, result = postgres_etl.postgres_etl(connection)
+                                # write_log(
+                                #     txt_result(error), 'postgres_etl', 'postgres_etl: ' + result + print_dest(t_st))
                                 # send(messages=[time.ctime(), " postgres_etl: " + result + print_dest(t_st)])
         t_st = datetime.datetime.now()
         t0 = get_value_time(t_st) - get_value_time(commonthread.t_0)
