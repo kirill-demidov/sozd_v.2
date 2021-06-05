@@ -3,9 +3,9 @@ import json
 import re
 import psycopg2
 import time
+from datetime import datetime
 from threading import Lock
-from requests.adapters import HTTPAdapter
-from requests.packages.urllib3.util.retry import Retry
+
 
 host_db = '178.62.60.87'
 port_db = 5432
@@ -13,6 +13,7 @@ name_db = 'sozd'
 user_name = 'postgres'
 password = 'password'
 lock = Lock()
+row = 0
 
 retry_strategy = Retry(
     total=3,
@@ -149,23 +150,21 @@ start_at = 0
 row_count = 0
 page = 1
 need_finish = False
-url_for_total_count = 'http://api.duma.gov.ru/api/' + api_token + '/search.json?app_token=' + app_token
+url_for_total_count = 'http://api.duma.gov.ru/api/' + api_token + '/search.json?app_token=' + app_token+'&registration_start=1994-01-01'
 response = http.get( url_for_total_count)
 
 # response = requests.request('GET', url_for_total_count)
 result = json.loads(response.text)
 total: int = (int(result['count']))
-truncate_table()
+# truncate_table()
 
-print(total, need_finish)
+# print(total, need_finish)
 while not need_finish:
     url = 'http://api.duma.gov.ru/api/' + api_token + '/search.json?app_token=' + app_token + '&limit=20&page=' + str(
-        page)
-    response = requests.request(
-        "GET",
-        url
-    )
-    print(url, need_finish)
+        page)+'&registration_start=1994-01-01'
+    # response = requests.request(
+    response = http.get(url)
+    print(url)
 
 
 
@@ -176,6 +175,7 @@ while not need_finish:
         else:
             laws = result['laws']
             # print(laws)
+
             row_count = row_count + len(laws)
             need_finish = row_count > total
             # print(laws)
@@ -239,6 +239,8 @@ while not need_finish:
                                  "');"
                 insert_laws()
                 row_count = row_count + 1
+                row = row + 1
+                print('inserted ', row, ' rows at ', datetime.now())
                 deputies = laws[n]['subject']['deputies']
                 if len(deputies) > 0:
                     for i in range(0, len(deputies)):
@@ -297,26 +299,20 @@ while not need_finish:
                                                                                               values(' + "'" + str(law_id) + \
                                                                  "','" + str(responsible_committee_id) + "');"
                    insert_bridge_responsible_comittees_laws()
-                # soexecutor = laws[n]['committees']['soexecutor']
-            if len(soexecutor) > 0:
-                for e in range(0, len(soexecutor)):
-                    soexecutor_id = soexecutor[e]['id']
-                    soexecutor_name = soexecutor[e]['name']
-                    soexecutor_isCurrent = soexecutor[e]['isCurrent']
-                    soexecutor_startDate = soexecutor[e]['startDate']
-                    soexecutor_endDate = soexecutor[e]['endDate']
-            else:
-                soexecutor_id = 'n/a'
-                soexecutor_name = 'n/a'
-                soexecutor_isCurrent = 'n/a'
-                soexecutor_startDate = 'n/a'
-                soexecutor_endDate = 'n/a'
-
-
-
-
-            print(insert_sql)
-            connect()
+                soexecutor = laws[n]['committees']['soexecutor']
+                if len(soexecutor) > 0:
+                    for e in range(0, len(soexecutor)):
+                        soexecutor_id = soexecutor[e]['id']
+                        soexecutor_name = soexecutor[e]['name']
+                        soexecutor_isCurrent = soexecutor[e]['isCurrent']
+                        soexecutor_startDate = soexecutor[e]['startDate']
+                        soexecutor_endDate = soexecutor[e]['endDate']
+                else:
+                    soexecutor_id = 'n/a'
+                    soexecutor_name = 'n/a'
+                    soexecutor_isCurrent = 'n/a'
+                    soexecutor_startDate = 'n/a'
+                    soexecutor_endDate = 'n/a'
     except Exception as er:
-        print(f'er')
+        print('error is -->',f'{er}')
         # print(response.text)

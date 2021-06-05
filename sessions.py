@@ -4,6 +4,8 @@ import psycopg2
 import time
 from threading import Lock
 
+
+
 host_db = '178.62.60.87'
 port_db = 5432
 name_db = 'sozd'
