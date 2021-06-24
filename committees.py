@@ -8,8 +8,8 @@ from threading import Lock
 host_db = '178.62.60.87'
 port_db = 5432
 name_db = 'sozd'
-user_name = 'postgres'
-password = 'password'
+user_name = 'kirill'
+password = 'jenya1980'
 lock = Lock()
 
 
@@ -48,6 +48,7 @@ sql_query(truncate_table)
 print('table mrr_committees is truncated')
 
 url =  'http://api.duma.gov.ru/api/'+api_token+'/committees.json?app_token='+app_token
+print(url)
 response = requests.request('GET',url)
 result = json.loads(response.text)
 for f in range(0, len(result)):

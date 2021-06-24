@@ -9,8 +9,8 @@ from threading import Lock
 host_db = '178.62.60.87'
 port_db = 5432
 name_db = 'sozd'
-user_name = 'postgres'
-password = 'password'
+user_name = 'kirill'
+password = 'jenya1980'
 lock = Lock()
 
 def write_log(level: str, src: str, msg: str, with_out_lf = False):
@@ -56,6 +56,7 @@ api_token = '102a38817f1a483cf2410bcc268ec51bf7baa01e'
 app_token = 'appe6928a827a71f84553973a79e0ac07e7cb1a4560'
 truncate_table()
 url =  'http://api.duma.gov.ru/api/'+api_token+'/periods.json?app_token='+app_token
+print(url)
 response = requests.request('GET',url)
 result = json.loads(response.text)
 # print(url)
@@ -77,5 +78,5 @@ for duma in result:
                 str(duma_startDate) + "','" + str(duma_endDate) + "','" + str(session_id) + \
                 "','" + str(session_name) + "','" + str(session_startDate) + "','" + \
                 str(session_endDate) + "');"
-    # print(insert_sql)
+        print(insert_sql)
         connect()

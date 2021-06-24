@@ -7,8 +7,8 @@ from threading import Lock
 host_db = '178.62.60.87'
 port_db = 5432
 name_db = 'sozd'
-user_name = 'postgres'
-password = 'password'
+user_name = 'kirill'
+password = 'jenya1980'
 lock = Lock()
 
 

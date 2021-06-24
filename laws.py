@@ -10,20 +10,12 @@ from threading import Lock
 host_db = '178.62.60.87'
 port_db = 5432
 name_db = 'sozd'
-user_name = 'postgres'
-password = 'password'
+user_name = 'kirill'
+password = 'jenya1980'
 lock = Lock()
 row = 0
 
-retry_strategy = Retry(
-    total=3,
-    status_forcelist=[429, 500, 502, 503, 504],
-    allowed_methods=["HEAD", "GET", "OPTIONS"]
-)
-adapter = HTTPAdapter(max_retries=retry_strategy)
-http = requests.Session()
-http.mount("https://", adapter)
-http.mount("http://", adapter)
+
 
 def write_log(level: str, src: str, msg: str, with_out_lf=False):
     st = "lvl=" + level + ' ' + 'src="' + str(src).replace('"', "'") + '" msg="' + str(msg).replace('"', "'") + '"'
@@ -150,20 +142,21 @@ start_at = 0
 row_count = 0
 page = 1
 need_finish = False
-url_for_total_count = 'http://api.duma.gov.ru/api/' + api_token + '/search.json?app_token=' + app_token+'&registration_start=1994-01-01'
-response = http.get( url_for_total_count)
+url_for_total_count = 'http://api.duma.gov.ru/api/' + api_token + '/search.json?app_token=' + app_token+'&registration_start=2020-01-01'
+# response = http.get( url_for_total_count)
 
-# response = requests.request('GET', url_for_total_count)
+response = requests.request('GET', url_for_total_count)
 result = json.loads(response.text)
 total: int = (int(result['count']))
-# truncate_table()
 
-# print(total, need_finish)
+truncate_table()
+
+print(total, need_finish)
 while not need_finish:
     url = 'http://api.duma.gov.ru/api/' + api_token + '/search.json?app_token=' + app_token + '&limit=20&page=' + str(
-        page)+'&registration_start=1994-01-01'
-    # response = requests.request(
-    response = http.get(url)
+        page)+'&registration_start=2020-01-01'
+    response = requests.request('GET', url)
+    # response = http.get(url)
     print(url)
 
 
