@@ -142,7 +142,7 @@ start_at = 0
 row_count = 0
 page = 1
 need_finish = False
-url_for_total_count = 'http://api.duma.gov.ru/api/' + api_token + '/search.json?app_token=' + app_token+'&registration_start=2020-01-01'
+url_for_total_count = 'http://api.duma.gov.ru/api/' + api_token + '/search.json?app_token=' + app_token+'&registration_start=2021-01-01'
 # response = http.get( url_for_total_count)
 
 response = requests.request('GET', url_for_total_count)
@@ -154,7 +154,7 @@ truncate_table()
 print(total, need_finish)
 while not need_finish:
     url = 'http://api.duma.gov.ru/api/' + api_token + '/search.json?app_token=' + app_token + '&limit=20&page=' + str(
-        page)+'&registration_start=2020-01-01'
+        page)+'&registration_start=2021-01-01'
     response = requests.request('GET', url)
     # response = http.get(url)
     print(url)
