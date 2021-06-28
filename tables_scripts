@@ -1,0 +1,117 @@
+CREATE TABLE PUBLIC.mrr_committees
+  (
+     id            VARCHAR,
+     comittee_name VARCHAR,
+     is_current    VARCHAR,
+     start_date    VARCHAR,
+     end_date      VARCHAR
+  )
+
+CREATE TABLE PUBLIC.mrr_deputy_by_fraction
+  (
+     deputy_id          VARCHAR,
+     deputy_name        VARCHAR,
+     deputy_position    VARCHAR,
+     is_current         VARCHAR,
+     fraction_id        VARCHAR,
+     fraction_name      VARCHAR,
+     fraction_startdate VARCHAR,
+     fraction_enddate   VARCHAR
+  )
+
+CREATE TABLE PUBLIC.mrr_laws
+  (
+     law_id               VARCHAR,
+     law_number           VARCHAR,
+     law_name             VARCHAR,
+     law_comments         VARCHAR,
+     law_introductiondate VARCHAR,
+     law_url              VARCHAR,
+     event_solution       VARCHAR,
+     event_date           VARCHAR,
+     stage_id             VARCHAR,
+     stage_name           VARCHAR,
+     phase_id             VARCHAR,
+     phase_name           VARCHAR,
+     law_type_id          VARCHAR,
+     law_type_name        VARCHAR
+  )
+
+CREATE TABLE PUBLIC.mrr_bridge_laws_deputy
+  (
+     deputy_id         VARCHAR,
+     law_id            VARCHAR,
+     deputy_position   VARCHAR,
+     deputy_is_current VARCHAR
+  )
+
+CREATE TABLE PUBLIC.mrr_bridge_department_laws
+  (
+     law_id        VARCHAR,
+     department_id VARCHAR
+  )
+
+CREATE TABLE PUBLIC.mrr_bridge_faction_laws
+  (
+     law_id      VARCHAR,
+     fraction_id VARCHAR
+  )
+
+CREATE TABLE PUBLIC.mrr_bridge_profile_comittees_laws
+  (
+     law_id               VARCHAR,
+     profile_committee_id VARCHAR
+  )
+
+CREATE TABLE PUBLIC.mrr_bridge_responsible_comittees_laws
+  (
+     law_id                   VARCHAR,
+     responsible_committee_id VARCHAR
+  )
+
+CREATE TABLE mrr_legistation_topics
+  (
+     id         VARCHAR,
+     topic_name VARCHAR
+  )
+
+CREATE TABLE PUBLIC.mrr_legistation_stages
+  (
+     stage_id   VARCHAR,
+     stage_name VARCHAR,
+     phase_id   VARCHAR,
+     phase_name VARCHAR
+  )
+
+CREATE TABLE PUBLIC.mrr_meetings
+  (
+     kodez VARCHAR,
+     dataz VARCHAR
+  )
+
+CREATE TABLE PUBLIC.mrr_sessions
+  (
+     duma_id           VARCHAR,
+     duma_name         VARCHAR,
+     duma_startdate    VARCHAR,
+     duma_enddate      VARCHAR,
+     session_id        VARCHAR,
+     session_name      VARCHAR,
+     session_startdate VARCHAR,
+     session_enddate   VARCHAR
+  )
+
+CREATE TABLE PUBLIC.mrr_votes
+  (
+     voteid           VARCHAR,
+     sublect          VARCHAR,
+     law_number       VARCHAR,
+     law_voting_flag  VARCHAR,
+     vote_date        VARCHAR,
+     vote_count       VARCHAR,
+     vote_for         VARCHAR,
+     vote_against     VARCHAR,
+     vote_abstain     VARCHAR,
+     vote_absent      VARCHAR,
+     vote_result_type VARCHAR
+  )

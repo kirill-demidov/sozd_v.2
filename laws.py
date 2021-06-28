@@ -26,6 +26,21 @@ def write_log(level: str, src: str, msg: str, with_out_lf=False):
         print(st)
     lock.release()
 
+def sql_execute(sql_script):
+    try:
+        conn = psycopg2.connect(
+            user=user_name,
+            password=password,
+            host=host_db,
+            port=port_db,
+            database=name_db)
+        conn.autocommit = True
+        cursor = conn.cursor()
+        cursor.execute(sql_script)
+    except Exception as err:
+        write_log('ERROR', 'connect_and_update', time.ctime() + ": error " + f"{err}")
+    return None, False
+
 
 def truncate_table():
     try:
@@ -149,7 +164,6 @@ response = requests.request('GET', url_for_total_count)
 result = json.loads(response.text)
 total: int = (int(result['count']))
 
-truncate_table()
 
 print(total, need_finish)
 while not need_finish:
