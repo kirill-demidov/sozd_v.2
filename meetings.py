@@ -6,11 +6,11 @@ from threading import Lock
 
 
 
-host_db = '178.62.60.87'
+host_db = '127.0.0.1'
 port_db = 5432
 name_db = 'sozd'
-user_name = 'kirill'
-password = 'jenya1980'
+user_name = 'postgres'
+password = 'password'
 lock = Lock()
 
 api_token = '102a38817f1a483cf2410bcc268ec51bf7baa01e'
@@ -40,7 +40,7 @@ def truncate_table():
     return None, False
 
 
-def connect():
+def connect(insert_sql):
     try:
         conn = psycopg2.connect(
             user=user_name,
@@ -61,61 +61,44 @@ start_at = 0
 row_count = 0
 page = 1
 need_finish = False
-meetings = {"kodez":[],"datez":[]}
-url_for_total_count = 'http://api.duma.gov.ru/api/' + api_token + '/questions.json?app_token=' + app_token+'&dateFrom=2021-01-01&dateTo=2021-02-01'
+# meetings = {"kodez":[],"datez":[]}
+mas = []
+url_for_total_count = 'http://api.duma.gov.ru/api/' + api_token + '/questions.json?app_token=' + app_token\
+                        +'&dateFrom=1994-01-01&dateTo=2021-07-01'
 # response = http.get( url_for_total_count)
 
 response = requests.request('GET', url_for_total_count)
 result = json.loads(response.text)
 total: int = (int(result['totalCount']))
-print(total)
-
-
+page_size: int = (int(result['pageSize']))
+page_count = (total + page_size - 1) // page_size
 print(total, need_finish)
 
 # truncate_table()
 
 while not need_finish:
-    url = 'http://api.duma.gov.ru/api/' + api_token + '/questions.json?app_token=' + app_token + '&dateFrom=2021-01-01&dateTo=2021-02-01&page=' + str(
-        page)
+    url = 'http://api.duma.gov.ru/api/' + api_token + '/questions.json?app_token=' + app_token\
+                                        + '&dateFrom=1994-01-01&dateTo=2021-07-01&page=' + str(page)
     print(url)
-    response = requests.request('GET', url)
-    result = json.loads(response.text)
     try:
+        response = requests.request('GET', url, timeout=30)
         result = json.loads(response.text)
         if result is None or result == '{}':
             print('I got a null or empty string value for data in a file')
         else:
             questions = result['questions']
             row_count = row_count + len(questions)
-            need_finish = row_count >= total
-
-            page = page + 1
             for n in range(0, len(questions)):
-                meetings["kodez"].append(questions[n]['kodz'])
-                meetings["datez"].append(questions[n]['datez'])
-                # print(total, need_finish, row_count, page)
-
+                st = str(questions[n]['kodz'])+ ';'+str(questions[n]['datez'])
+                if st not in mas:
+                    mas.append(st)
     except Exception as er:
-        print('error is -->',f'{er}')
-    # print(type(meetings), meetings)
-kodez = []
-for val in meetings['kodez']:
-    if val not in kodez:
-        kodez.append(val)
-datez = []
-for val in meetings['datez']:
-    if val not in datez:
-        datez.append(val)
-
-meetings['kodez'] = kodez
-meetings['datez'] = datez
-
-for i in range(0, len(meetings['kodez'])):
-   kode = meetings['kodez'][i]
-   date = meetings['datez'][i]
-   insert_sql = 'INSERT INTO public.mrr_meetings\
-                                     (kodez, dataz)\
-                                                                              values(' + "'" + str(kode) + \
-                                                        "','" + str(datez) + "');"
-   connect()
+        print('error is -->',f'{er}',response.text)
+    page = page + 1
+    need_finish = page > page_count
+# print(mas)
+for par in mas:
+   print(par.split(';')[0],par.split(';')[1] )
+   insert_sql = 'INSERT INTO public.mrr_meetings (kodez, dataz)\
+                 values(' + "'" + str(par.split(';')[0]) + "','" + str(par.split(';')[1]) + "');"
+   connect(insert_sql)
