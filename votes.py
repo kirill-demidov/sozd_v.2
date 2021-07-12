@@ -8,9 +8,9 @@ from threading import Lock
 
 
 
-host_db = '178.62.60.87'
+# host_db = '178.62.60.87'
 # host_db = 'bi-postgres'
-# host_db = '127.0.0.1'
+host_db = '127.0.0.1'
 port_db = 5432
 # name_db = 'postgres'
 name_db = 'sozd'
@@ -72,6 +72,7 @@ truncate_table()
 pages_number = total/100
 while not need_finish:
     url = 'http://api.duma.gov.ru/api/'+api_token+'/voteSearch.json?app_token='+app_token+'&limit=100&page='+str(page)
+    print(url)
     response = requests.request(
                     "GET",
                     url

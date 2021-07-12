@@ -115,3 +115,10 @@ CREATE TABLE PUBLIC.mrr_votes
      vote_absent      VARCHAR,
      vote_result_type VARCHAR
   )
+
+
+--script for meeting count
+  select distinct a.*, b.duma_name
+from mrr_meetings a left join mrr_sessions b
+on a.dataz between b.duma_startdate and b.duma_enddate
+order by a.dataz

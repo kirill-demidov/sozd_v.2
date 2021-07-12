@@ -7,11 +7,11 @@ from datetime import datetime
 from threading import Lock
 
 
-host_db = '178.62.60.87'
+host_db = 'localhost'
 port_db = 5432
 name_db = 'sozd'
-user_name = 'kirill'
-password = 'jenya1980'
+user_name = 'postgres'
+password = 'password'
 lock = Lock()
 row = 0
 
@@ -157,7 +157,7 @@ start_at = 0
 row_count = 0
 page = 1
 need_finish = False
-url_for_total_count = 'http://api.duma.gov.ru/api/' + api_token + '/search.json?app_token=' + app_token+'&registration_start=2021-01-01'
+url_for_total_count = 'http://api.duma.gov.ru/api/' + api_token + '/search.json?app_token=' + app_token#+'&registration_start=2015-01-01&registration_end=2021-06-17'
 # response = http.get( url_for_total_count)
 
 response = requests.request('GET', url_for_total_count)
@@ -168,7 +168,7 @@ total: int = (int(result['count']))
 print(total, need_finish)
 while not need_finish:
     url = 'http://api.duma.gov.ru/api/' + api_token + '/search.json?app_token=' + app_token + '&limit=20&page=' + str(
-        page)+'&registration_start=2021-01-01'
+       page)+'&registration_start=1991-01-01&registration_end=2021-06-17'
     response = requests.request('GET', url)
     # response = http.get(url)
     print(url)

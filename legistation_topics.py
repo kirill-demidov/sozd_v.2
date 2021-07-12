@@ -5,7 +5,7 @@ import time
 from threading import Lock
 
 
-host_db = '178.62.60.87'
+host_db = '127.0.0.1'
 port_db = 5432
 name_db = 'sozd'
 user_name = 'postgres'
