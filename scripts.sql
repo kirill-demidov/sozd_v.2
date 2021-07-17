@@ -1,5 +1,7 @@
 
 
+-- 
+
 with cte as (select law_id from mrr_laws ml where law_introductiondate between '2020-01-03' and '2021-06-17')
 
 SELECT count(*), b.comittee_name 
@@ -73,12 +75,31 @@ where mbld.law_id in (select b.law_id  from mrr_kovid a join
 													mrr_laws b on a.law_number=b.law_number)
 													
 )
-select  a.*, b.law_name 
+select distinct b.law_id ,count(*) over ( partition by law_name, department), department
+into temp table a
 from laws a join mrr_laws b 
 on a.law_id = b.law_id 
+order by 1 
 
 
+select count(*), law_id 
+into temp table multi_law
+from a
+group by law_id 
+having count (*)>1
 
+
+select *
+from multi_law
+
+select *
+from a
+where law_id in (select law_id from multi_law)
+
+
+select *
+from a
+where law_id in (select law_id from single_law)
 
 
 
