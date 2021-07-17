@@ -3,7 +3,7 @@ app_token = 'appe6928a827a71f84553973a79e0ac07e7cb1a4560'
 
 
 
-url = 'http://api.duma.gov.ru/api/' + api_token + '/search.json?app_token=' + app_token + '&limit=20&page=' +'&registration_start=>2011-12-21'
+url = 'http://api.duma.gov.ru/api/' + api_token + '/search.json?app_token=' + app_token + '&limit=20&page=' +'&registration_start=>2011-12-21&topic=68221'
 print(url)
 
 
