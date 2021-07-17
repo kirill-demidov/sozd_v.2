@@ -45,3 +45,40 @@ select *
 from mrr_laws ml 
 
 
+-- ?????? ????? 
+with mrr_subject as (
+select id, department_name, department_name as department
+from mrr_federal_departmens  
+union 
+select id, department_name, '???????????? ???????????'
+from mrr_regional_departmens mrd
+union 
+select deputy_id , deputy_name , deputy_position
+from (
+select  deputy_id , deputy_name , deputy_position , max(fraction_startdate)
+from mrr_deputy_by_fraction mdbf 
+group by  deputy_id , deputy_name , deputy_position) as a
+),
+laws as (
+
+select a.department_id  as subject_id,a.law_id , mrr_subject.department
+from mrr_bridge_department_laws a  join mrr_subject  
+									on a.department_id =mrr_subject.id
+	     							where a.law_id in (select b.law_id  from mrr_kovid a join 
+													mrr_laws b on a.law_number=b.law_number)
+union 
+select deputy_id, law_id , mbld.deputy_position 
+from mrr_bridge_laws_deputy mbld 
+where mbld.law_id in (select b.law_id  from mrr_kovid a join 
+													mrr_laws b on a.law_number=b.law_number)
+													
+)
+select  a.*, b.law_name 
+from laws a join mrr_laws b 
+on a.law_id = b.law_id 
+
+
+
+
+
+
